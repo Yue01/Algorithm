@@ -1,0 +1,9 @@
+digraph {
+	"lv 0,node 0,dis 0"
+	"lv 0,node 0,dis 0" -> "lv 1,node 0,dis 2147483647"
+	"lv 0,node 0,dis 0" -> "lv 1,node 1,dis 0"
+	"lv 0,node 0,dis 0" -> "lv 1,node 2,dis 2"
+	"lv 1,node 1,dis 0" -> "lv 2,node 0,dis 2147483647"
+	"lv 1,node 1,dis 0" -> "lv 2,node 1,dis 2147483647"
+	"lv 1,node 1,dis 0" -> "lv 2,node 2,dis 10"
+}
