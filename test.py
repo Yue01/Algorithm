@@ -68,3 +68,6 @@ print mat
 a = np.array(mat)
 print a
 
+for i in range(0,4):
+    print i
+

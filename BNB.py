@@ -82,6 +82,9 @@ def cal_distance(x1,x2,y1,y2,direction1,direction2):
 
 # factor in weight or not
 def cal_path_w(list,weight,dict2,dict4):
+    #dict4: [key, itemnum]
+    #weight:[itemnum, weight]
+    #dict2[key, position]
     num_dict = dict4.copy()
     print dict4
     print num_dict
@@ -99,7 +102,7 @@ def cal_path_w(list,weight,dict2,dict4):
     select=""
     for i in range(1,len(list)-1):
         for key in now_dict:
-            if(now_dict[key][0]==list[i][0] and now_dict[key][1]==list[i][1]):
+            if((now_dict[key][0]-list[i][0])<=1 and now_dict[key][1]*2==list[i][1]):
                 select=key
                 s=num_dict[key]
                 s1=int(s)
@@ -241,11 +244,11 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
     # 这里的list包含了所有的点
     list.append(node)
     # 如果只有一个item，那就无需规划了
-    if(len(list)==3):
-        if(w=="y"):
-            cal_path_w(list,weight,dict2,dict4)
-        else:
-            cal_path_nw(list)
+    # if(len(list)==3):
+    #     if(w=="y"):
+    #         cal_path_w(list,weight,dict2,dict4)
+    #     else:
+    #         cal_path_nw(list)
 
     list2= cp.copy(list)
     # print "ahahah"
@@ -275,6 +278,8 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
     rx=list[end_cur][0]*2-1
     ry=list[end_cur][1]*2
     append_list.append([rx,ry])
+    #append list include all the nodes: with start and end
+
     mat = []
     for i in range(0,len(append_list)):
         dis=[]
@@ -357,7 +362,8 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
                 q.put(n)
     if(len(op_path)==0):
         op_path=can_path
-    op_path.append(end_point)
+    op_path.append(append_list[len(append_list)-1])
+    print op_path
     if(w=="y"):
         cal_path_w(op_path,weight,dict2,dict4)
     else:

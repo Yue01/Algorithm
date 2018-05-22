@@ -57,8 +57,6 @@ def generatemst(dict2,start_point,end_point):
     Tcsr = minimum_spanning_tree(csr_matrix(v))
     print("2. The Minimum Spanning Tree: ")
     print v
-    print("Edges selected: ")
-    print Tcsr
     Tcsr=str(Tcsr).split()
     counter=0
     tem=0

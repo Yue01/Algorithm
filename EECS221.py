@@ -72,13 +72,13 @@ def original(order):
     origin=0
     startx = start_point[0]
     starty = start_point[1]
-    endx=end_point[0]
-    endy=end_point[1]
+    endx=end_point[0]*2
+    endy=end_point[1]*2
     for i in range(0,len(order)):
         place = dict[order[i]]
-        origin=origin+abs(place[0]-startx)+abs(place[1]-starty)
-        startx=place[0]
-        starty=place[1]
+        origin=origin+abs(place[0]*2-startx*2)+abs(place[1]*2-starty*2)
+        startx=place[0]*2
+        starty=place[1]*2
     origin=origin+abs(endx-startx)+abs(endy-starty)
     print("1. The orginal path length is : "),
     print origin
@@ -108,7 +108,7 @@ def singleorder(order):
     choice = raw_input("Choose an algorithm:(n for nearest neighbor/b for B&B)")
     w = raw_input("Factor in weight? (y/n):")
     # use mst to generate the lower bound
-    generatemst(dict2,start_point,end_point)
+    #generatemst(dict2,start_point,end_point)
     # using Branch and Bound algorithm
     if(choice=="b"):
         branch(dict2,dict_w,start_point,end_point,w,dict5)
@@ -204,29 +204,29 @@ def singleorder(order):
         print "Nearest Neighbor:"
         print "If weight not in factor, the path will be:"
         print("("),
-        print(start_point[0]),
-        startx=start_point[0]
+        print(start_point[0]*2),
+        startx=start_point[0]*2
         print(","),
-        print(start_point[1]),
-        starty=start_point[1]
+        print(start_point[1]*2),
+        starty=start_point[1]*2
         print(")->"),
         for i in range(len(pathlist)):
             col = dict2[pathlist[i]]
-            opt=opt+abs(col[0]-startx)+abs(col[1]-starty)
-            startx=col[0]
-            starty=col[1]
+            opt=opt+abs(col[0]*2-startx)+abs(col[1]*2-starty)
+            startx=col[0]*2
+            starty=col[1]*2
             print("("),
-            print(col[0]),
+            print(col[0]*2),
             print(","),
-            print(col[1]),
+            print(col[1]*2),
             print(")->"),
-        endx=end_point[0]
-        endy=end_point[1]
+        endx=end_point[0]*2
+        endy=end_point[1]*2
         opt=opt+abs(endx-startx)+abs(endy-starty)
         print("("),
-        print(end_point[0]),
+        print(end_point[0]*2),
         print(","),
-        print(end_point[1]),
+        print(end_point[1]*2),
         print(")->"),
         print("END")
         print("8. The optimal path length is : "),
@@ -259,26 +259,41 @@ def singleorder(order):
                     tem_list.append(s1)
             now_dict.pop(select)
             num_dict.pop(select)
+        print "thins are here"
+        print dict2
         print "Nearest Neighbor:"
         print "If weight in factor, the path will be: "
-        x_1=start_point[0]
-        y_1=start_point[1]
+        x_1=start_point[0]*2
+        y_1=start_point[1]*2
         print"(",x_1,",",y_1,")->",
+        now_w=0
         for i in range(1,len(list)):
             col = dict2[list[i]]
-            x_2=col[0]
-            y_2=col[1]
+            x_2=col[0]*2
+            y_2=col[1]*2
             tem_w = 0
             try:
-                tem_w=weight[dict5[tem_list[i]]]
+                tem_w=weight[dict5[tem_list[i-1]]]
                 total_weight+=tem_w
+                print "(weight: ",tem_w,")",
             except KeyError:
                 tem_w=0
-            print "(weight missing! )",
+                total_weight+=tem_w
+                print "(weight missing! )",
             print"(",x_2,",",y_2,")->",
-            now_w = (abs(x_1-x_2)+abs(y_1-y_2))*total_weight
+            now_w += (abs(x_1-x_2)+abs(y_1-y_2))*total_weight
             x_1=x_2
             y_1=y_2
+        x_2=end_point[0]*2
+        y_2=end_point[1]*2
+        try:
+            tem_w=weight[dict5[tem_list[len(list)-1]]]
+            total_weight+=tem_w
+            print "(weight: ",tem_w," )",
+        except KeyError:
+            tem_w=0
+            print "(weight missing! )",
+        print"(",x_2,",",y_2,")->",
 
     print "END"
     print "The total effort is :", now_w
