@@ -13,14 +13,13 @@ from MST import check
 define the direction:
 -1 -> item <- 1
 '''
-direction=1
+direction1=1
+direction2=1
 upper_bound=sys.maxint
 can_path=[]
 op_path=[]
 traverse=[]
 weight={}
-
-
 
 def bnb(tem,i):
     tem1= cp.copy(tem)
@@ -66,22 +65,19 @@ class Node(object):
             return False
 
 
-def cal_distance(x1,x2,y1,y2,direction):
+def cal_distance(x1,x2,y1,y2,direction1,direction2):
     if(x1<x2):
-        if(direction==-1):
+        if(direction1==-1):
             return abs(x2-x1)+abs(y2-y1)
-        if(direction==1):
-            direction=-1
-            return  abs(x2-x1)+abs(y2-y1)-1
-    if(x1>x2):
-        if(direction==-1):
-            direction=1
-            return abs(x2-x1)+abs(y2-y1)-1
-        if(direction==1):
-            return  abs(x2-x1)+abs(y2-y1)-1
-    if(x1==x2):
-        return abs(y2-y1)
-    return 1;
+        if(direction1==1):
+            return abs(x2-x1)+abs(y2-y1)
+    elif(x1>x2):
+        if(direction1==-1):
+            return abs(x2-x1)+abs(y2-y1)
+        if(direction1==1):
+            return abs(x2-x1)+abs(y2-y1)
+    else:
+        return abs(x2-x1)+abs(y2-y1)
 
 
 # factor in weight or not
@@ -170,24 +166,48 @@ def init_first_row(tem,i,Node):
                 if(row[m]<50):
                     tem1[n][m]-=row[m]
                     cur_sum=cur_sum+row[m]
-        tem1[sel]=sys.maxint
+        if(sel%2==0 and not sel==0):
+            tem1[sel]=sys.maxint
+            tem1[sel-1]=sys.maxint
+        elif(sel%2==1 and not sel==(len(tem)-1)):
+            tem1[sel]=sys.maxint
+            tem1[sel+1]=sys.maxint
         Node.value+=cur_sum
         Node.matrix=tem1
+        # print "Matrix is :"
+        # print Node.matrix
+        # print "value is "
+        # print Node.value
+        # print "the current path si :"
+        # print Node.path
 
-def find_path(Node,list):
+def find_path(Node,append_list):
     sum=0
     short = sys.maxint
     cur=0
-    for i in range(0,len(list)):
+    for i in range(0,len(append_list)):
         sum=bnb(Node.matrix, i)
-        if(sum<short and sum<50):
+        if(sum<short and sum<60):
             short=sum
             cur=i
     Node.value+=short
     Node.level+=1
-    Node.matrix[cur]=sys.maxint
+    if(cur%2==0 and not cur==0):
+        Node.matrix[cur]=sys.maxint
+        Node.matrix[cur-1]=sys.maxint
+    elif(cur%2==1 and not cur==(len(append_list)-1)):
+        Node.matrix[cur]=sys.maxint
+        Node.matrix[cur+1]=sys.maxint
     Node.tail=cur
-    Node.path.append(list[Node.tail])
+    Node.path.append(append_list[Node.tail])
+    # print "Matrix is :"
+    # print Node.matrix
+    # print "value is "
+    # print Node.value
+    # print "short sum is "
+    # print short
+    # print "the current path si :"
+    # print Node.path
     #print "value is :", Node.value
     #print "path:", Node.path
     #print "mat"
@@ -220,7 +240,7 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
 
     # 这里的list包含了所有的点
     list.append(node)
-    #如果只有一个item，那就无需规划了
+    # 如果只有一个item，那就无需规划了
     if(len(list)==3):
         if(w=="y"):
             cal_path_w(list,weight,dict2,dict4)
@@ -228,16 +248,54 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
             cal_path_nw(list)
 
     list2= cp.copy(list)
-    # build the matrix with the list
+    # print "ahahah"
+    # print list
+    # # build the matrix with the list
+    # mat = []
+    # for i in range(0,len(list)):
+    #     dis=[]
+    #     for j in range(0,len(list)):
+    #         if(i==j):
+    #             dis.append(sys.maxint)
+    #         else:
+    #             dis.append(cal_distance(list[i][0],list[j][0],list[i][1],list[j][1],direction1,direction2))
+    #             dis.append(abs(list[i][0]-list[j][0])+abs(list[i][1]-list[j][1]))
+    #     mat.append(dis)
+
+    append_list = []
+    append_list.append(list[0])
+    for i in range(1,len(list)-1):
+        lx=list[i][0]*2-1
+        ly=list[i][1]*2
+        append_list.append([lx,ly])
+        rx=list[i][0]*2+1
+        ry=list[i][1]*2
+        append_list.append([rx,ry])
+    end_cur = len(list)-1
+    rx=list[end_cur][0]*2-1
+    ry=list[end_cur][1]*2
+    append_list.append([rx,ry])
     mat = []
-    for i in range(0,len(list)):
+    for i in range(0,len(append_list)):
         dis=[]
-        for j in range(0,len(list)):
+        for j in range(0,len(append_list)):
             if(i==j):
                 dis.append(sys.maxint)
+            elif(i%2==1 and j==i+1 ):
+                dis.append(sys.maxint)
+            elif(i%2==0 and j==i-1 and i>0):
+                dis.append(sys.maxint)
             else:
-                #dis.append(cal_distance(list[i][0],list[j][0],list[i][1],list[j][1],direction))
-                dis.append(abs(list[i][0]-list[j][0])+abs(list[i][1]-list[j][1]))
+                if(i%2==0):
+                    direction1==1
+                else:
+                    direction1==-1
+                if(j%2==0):
+                    direction2==1
+                else:
+                    direction2==-1
+                dis.append(cal_distance(append_list[i][0],append_list[j][0],append_list[i][1],append_list[j][1],direction1,direction2))
+                #dis.append(abs(append_list[i][0]-append_list[j][0])+abs(append_list[i][1]-append_list[j][1]))
         mat.append(dis)
     a = np.array(mat)
     #这里的a就是所有的矩阵
@@ -260,17 +318,17 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
     # nodes initialization
     a[0]=sys.maxint
     q = Q.PriorityQueue()
-    for i in range(1,len(list)-1):
+    for i in range(1,len(append_list)-1):
         temp=[]
-        temp.append(list[0])
-        temp.append(list[i])
+        temp.append(append_list[0])
+        temp.append(append_list[i])
         tem_lv=1
         tem_tail = i
         curNode = Node(tem_lv,0,tem_tail,a,temp)
         init_first_row(a,i,curNode)
-        #print "lv ", curNode.level, " value ", curNode.value," paht ", curNode.path
-        #print "mat"
-        #print  curNode.matrix
+        # print "initinitinitinit"
+        # print "lv ", curNode.level, " value ", curNode.value," path ", curNode.path
+        # print "mat"
         q.put(curNode)
 
 
@@ -278,7 +336,7 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
         global upper_bound
         n=q.get()
         if(n.value>=upper_bound):
-            continue
+            break
         else:
             if q.empty():
                 break
@@ -292,7 +350,10 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
                         if(upper_bound>n.value):
                             upper_bound=n.value
                             can_path=n.path
-                find_path(n,list)
+                find_path(n,append_list)
+                # print "lv ", n.level, " value ", n.value," path ", n.path
+                # print "mat"
+                # print  n.matrix
                 q.put(n)
     if(len(op_path)==0):
         op_path=can_path
