@@ -356,10 +356,11 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
                             upper_bound=n.value
                             can_path=n.path
                 find_path(n,append_list)
-                # print "lv ", n.level, " value ", n.value," path ", n.path
-                # print "mat"
-                # print  n.matrix
+                print "lv ", n.level, " value ", n.value," path ", n.path
+                print "mat"
+                print  n.matrix
                 q.put(n)
+
     if(len(op_path)==0):
         op_path=can_path
     op_path.append(append_list[len(append_list)-1])

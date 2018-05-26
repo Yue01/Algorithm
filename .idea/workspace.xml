@@ -5,8 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BNB.py" beforeDir="false" afterPath="$PROJECT_DIR$/BNB.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EECS221.py" beforeDir="false" afterPath="$PROJECT_DIR$/EECS221.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MST.py" beforeDir="false" afterPath="$PROJECT_DIR$/MST.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,7 +20,7 @@
       <file leaf-file-name="EECS221.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EECS221.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
+            <state>
               <caret line="81" column="26" selection-start-line="81" selection-start-column="26" selection-end-line="81" selection-end-column="26" />
               <folding>
                 <element signature="e#71#84#0" expanded="true" />
@@ -30,11 +29,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BNB.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BNB.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BNB.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="98" column="22" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
+            <state>
+              <caret column="17" lean-forward="true" selection-start-column="17" selection-end-column="17" />
               <folding>
                 <element signature="e#90#108#0" expanded="true" />
               </folding>
@@ -42,14 +41,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
+      <file leaf-file-name="demo.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/demo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
-              <folding>
-                <element signature="e#38#48#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="76">
+              <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -89,26 +85,25 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/item-dimensions-tabbed.txt" />
-        <option value="$PROJECT_DIR$/demo.py" />
         <option value="$PROJECT_DIR$/MST.py" />
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/EECS221.py" />
         <option value="$PROJECT_DIR$/BNB.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/demo.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="580" />
-    <option name="y" value="210" />
-    <option name="width" value="980" />
-    <option name="height" value="1090" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="882" />
+    <option name="y" value="150" />
+    <option name="width" value="979" />
+    <option name="height" value="1009" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Course" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -120,6 +115,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Course" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -143,7 +139,25 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.EECS221">
+  <component name="RunManager" selected="Python.demo">
+    <configuration name="BNB" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="EECS221" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BNB.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="EECS221" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="EECS221" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -221,11 +235,13 @@
       <item itemvalue="Python.EECS221" />
       <item itemvalue="Python.MST" />
       <item itemvalue="Python.demo" />
+      <item itemvalue="Python.BNB" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.EECS221" />
         <item itemvalue="Python.demo" />
+        <item itemvalue="Python.BNB" />
+        <item itemvalue="Python.EECS221" />
         <item itemvalue="Python.MST" />
       </list>
     </recent_temporary>
@@ -234,12 +250,13 @@
     <configuration />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <frame x="706" y="120" width="783" height="807" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1003963" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20348059" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.51336896" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.366322" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3970588" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -633,13 +650,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" selection-start-line="5" selection-end-line="9" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MST.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="110">
@@ -649,7 +659,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EECS221.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
+        <state>
           <caret line="81" column="26" selection-start-line="81" selection-start-column="26" selection-end-line="81" selection-end-column="26" />
           <folding>
             <element signature="e#71#84#0" expanded="true" />
@@ -659,21 +669,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
-          <folding>
-            <element signature="e#38#48#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="152">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BNB.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="98" column="22" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
+        <state>
+          <caret column="17" lean-forward="true" selection-start-column="17" selection-end-column="17" />
           <folding>
             <element signature="e#90#108#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
         </state>
       </provider>
     </entry>
