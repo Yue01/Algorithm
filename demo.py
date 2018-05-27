@@ -5,16 +5,29 @@ else:
     import tkinter as tk
 import ttk
 from Tkinter import *
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-def print_selection():
-    l.config(text='you have selected ' + var.get())
-    print str(var.get())
+
+def hit_me():
+    print "really"
+    print str(numberChosen.get())
+    print int(s_x.get())
+    print int(s_y.get())
+    canvas = FigureCanvasTkAgg(f, master=right)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side="right", expand=1)
 
 
 win = tk.Tk()
-var = tk.StringVar()
+var1= tk.StringVar()
+var2 = tk.StringVar()
 win.title('EECS221A App')
-win.geometry('800x400')
+win.geometry('500x360')
+
 
 all = Frame(win)
 all.pack(side="top")
@@ -64,12 +77,10 @@ l = tk.Label(algorithm,width=20, text='1.Algorithm',bg='white')
 l.pack(side="top")
 # selection
 r1 = tk.Radiobutton(al_select,text='Nearest Neighbor',
-                    variable=var, bg='white',value='n',
-                    command=print_selection)
+                    variable=var1, bg='white',value='n',)
 r1.pack(side="top")
 r2 = tk.Radiobutton(al_select,text='Branch and Bound',
-                    variable=var, bg='white',value='b',
-                    command=print_selection)
+                    variable=var1, bg='white',value='b')
 r2.pack(side="top")
 #inserting points
 s_x = tk.Entry(point1,width=6)
@@ -85,12 +96,10 @@ e_y=tk.Entry(point2,width=6)
 e_y.pack(side="left")
 # factor in weight or not:
 w_1 = tk.Radiobutton(weight,text='Yes',
-                    variable=var, bg='white',value='y',
-                    command=print_selection)
+                    variable=var2, bg='white',value='y')
 w_1.pack(side="left")
 w_2 = tk.Radiobutton(weight,text='No',
-                    variable=var,bg='white',value='n',
-                    command=print_selection)
+                    variable=var2,bg='white',value='n')
 w_2.pack(side="left")
 # input max weight:
 l = tk.Label(w_select,width=5, text='max:',bg='white')
@@ -108,8 +117,23 @@ numberChosen['values'] = ("warehouse-orders-1item.csv", "warehouse-orders-3item.
 numberChosen.pack(side = "top")
 numberChosen.current(0)
 
+#draw something
+f = Figure(figsize=(3, 3.5), dpi=100)
+a = f.add_subplot(111)
+a.set_axis_off()
+plt.xlim(-1,21)
+plt.ylim(-1,21)
+for i in range(1,11):
+    for j in range(1,11):
+        a.plot(2*i,2*j,'go')
+
+
 # at the end:
 b = tk.Button(bottomframe, text='Start!', width=5,
-              height=1)#, command=hit_me)
+              height=1, command=hit_me)
 b.grid(row=3,column=1)
+
+# qwer = tk.Button(bottomframe, text='lol', width=5,
+#               height=1, command=right.restart)
+# qwer.grid(row=4,column=1)
 win.mainloop()

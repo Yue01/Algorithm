@@ -19,9 +19,6 @@ else:
 root = Tk.Tk()
 root.wm_title("Embedding in TK")
 
-all = Tk.Frame(root)
-all.pack(side="right")
-
 f = Figure(figsize=(5, 4), dpi=100)
 a = f.add_subplot(111)
 plt.xlim(-1,21)
@@ -32,28 +29,23 @@ for i in range(1,11):
 
 
 # a tk.DrawingArea
-canvas = FigureCanvasTkAgg(f, master=all)
-canvas.draw()
-canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
-
-toolbar = NavigationToolbar2TkAgg(canvas, root)
-toolbar.update()
-canvas._tkcanvas.pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
+def onclick():
+    print "sdfsdfsd"
+    canvas = FigureCanvasTkAgg(f, master=root)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
 
 
-def on_key_event(event):
-    print('you pressed %s' % event.key)
-    key_press_handler(event, canvas, toolbar)
-
-canvas.mpl_connect('key_press_event', on_key_event)
 
 
-def _quit():
-    root.quit()     # stops mainloop
-    root.destroy()  # this is necessary on Windows to prevent
-                    # Fatal Python Error: PyEval_RestoreThread: NULL tstate
 
-button = Tk.Button(master=root, text='Quit', command=_quit)
+
+# def _quit():
+#     root.quit()     # stops mainloop
+#     root.destroy()  # this is necessary on Windows to prevent
+#                     # Fatal Python Error: PyEval_RestoreThread: NULL tstate
+
+button = Tk.Button(master=root, text='wtf', command=onclick())
 button.pack(side=Tk.BOTTOM)
 
 Tk.mainloop()

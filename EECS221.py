@@ -8,20 +8,68 @@ import sys
 import time
 import graphviz as gv
 from BNB import branch
-from MST import generatemst
-from MST import check
-import Tkinter as tk
+
+import sys
+if sys.version_info[0] < 3:
+    import Tkinter as tk
+else:
+    import tkinter as tk
 import ttk
 from Tkinter import *
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 #original path length
 origin=0
 opt=0
+order_name=""
+start_point=[0,0]
+end_point=[0,0]
+choice = 'n'
+w='n'
 
 # use a dictionary to save all the nodes
 dict={}  # for all the items
 dict_w={} # for weight information
 orderdict={} # for all the orders
+
+def set_al():
+    global choice
+    choice = 'b'
+
+def set_weight():
+    global w
+    w='n'
+#the start button activity in GUI
+def hit_me():
+    global order_name
+    global start_point
+    global end_point
+    start_point[0]=int(s_x.get())
+    start_point[1]=int(s_y.get())
+    end_point[0]=int(e_x.get())
+    end_point[1]=int(e_y.get())
+    order_name=str(numberChosen.get())
+    canvas = FigureCanvasTkAgg(fig, master=right)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side="right", expand=1)
+    with open(order_name, 'r') as f:
+        read = csv.reader(f)
+        all = list(read)
+        for i in range(len(all)):
+            each = str(all[i])[2:-2]
+            order = each.split()
+            # first calculate the distance that the original order covers
+            original(order)
+            # then with the optimal path
+            singleorder(order)
+            # use the mst to generate a lower bound
+            #generatemst(order, start_point,end_point)
+    f.close()
+
 
 # used for data transfer
 def num(s):
@@ -54,12 +102,12 @@ with open('item-dimensions-tabbed.txt', 'r') as file:
         read = file.readline()
 file.close()
 
-# initialize: start, end, order and time
-start_point=input("Hello User, where is your worker? [x,y] : ")
-#start_point=start_point_arb.split()
-end_point=input("What is your worker's end location? [x,y] : ")
-#end_point=end_point_ard.split()
-max_time = int(raw_input('Enter the amount of seconds you want to run this: '))
+# # initialize: start, end, order and time
+# start_point=input("Hello User, where is your worker? [x,y] : ")
+# #start_point=start_point_arb.split()
+# end_point=input("What is your worker's end location? [x,y] : ")
+# #end_point=end_point_ard.split()
+# max_time = int(raw_input('Enter the amount of seconds you want to run this: '))
 
 '''
 start_time = time.time()  # remember when we started
@@ -108,8 +156,7 @@ def singleorder(order):
 
 
 
-    choice = raw_input("Choose an algorithm:(n for nearest neighbor/b for B&B)")
-    w = raw_input("Factor in weight? (y/n):")
+
     # use mst to generate the lower bound
     #generatemst(dict2,start_point,end_point)
     # using Branch and Bound algorithm
@@ -119,7 +166,7 @@ def singleorder(order):
 
     # improvement for nearest neighbour
     start_time = time.time()  # remember when we started
-    while (time.time() - start_time) < max_time:
+    while (time.time() - start_time) < 2:
         opt=0
         curd=0
         pathlist=[]
@@ -304,21 +351,6 @@ def singleorder(order):
     print
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # for all orders
 def allorder(order_name):
     with open(order_name, 'r') as f:
@@ -337,8 +369,126 @@ def allorder(order_name):
 # input the time limit
 
 # arbitrary input
-order_name=raw_input("Please list file of orders to be processed:")
-allorder(order_name)
+# order_name=raw_input("Please list file of orders to be processed:")
+# allorder(order_name)
+
+win = tk.Tk()
+var1= tk.StringVar()
+var2 = tk.StringVar()
+win.title('EECS221A App')
+win.geometry('500x360')
+
+
+all = Frame(win)
+all.pack(side="top")
+left = Frame(all,borderwidth=5,bg='white')
+left.pack(side="left")
+right = Frame(all)
+right.pack(side="right")
+
+algorithm = Frame(left,bg='white')
+algorithm.pack(side = "top")
+al_select = Frame(left,bg='white')
+al_select.pack(side = "top")
+
+p1=tk.Label(left, width=20, text='2.Start point:',bg='white')
+p1.pack(side="top")
+point1= Frame(left)
+point1.pack(side = "top")
+p2=tk.Label(left, width=20, text='3.End point:',bg='white')
+p2.pack(side="top")
+point2= Frame(left)
+point2.pack(side = "top")
+
+w=tk.Label(left, width=20, text='4.Factor in weight?',bg='white')
+w.pack(side="top")
+weight = Frame(left)
+weight.pack(side = "top")
+ws=tk.Label(left, width=20, text='5.If yes, input max weight:',bg='white')
+ws.pack(side="top")
+w_select = Frame(left)
+w_select.pack(side = "top")
+
+f=tk.Label(left, width=20, text='6.Which file to process?',bg='white')
+f.pack(side="top")
+file= Frame(left)
+file.pack(side = "top")
+# right_sentence=tk.Label(right, width=20, text='The result is shown here:')
+# right_sentence.pack(side="top")
+end= Frame(right)
+end.pack(side = "top")
+
+bottomframe = Frame(left)
+bottomframe.pack( side = "bottom" )
+
+
+# first title
+l = tk.Label(algorithm,width=20, text='1.Algorithm',bg='white')
+l.pack(side="top")
+# selection
+r1 = tk.Radiobutton(al_select,text='Nearest Neighbor',
+                    variable=var1, bg='white',value='n')
+r1.pack(side="top")
+r2 = tk.Radiobutton(al_select,text='Branch and Bound',
+                    variable=var1, bg='white',value='b',command = set_al)
+r2.pack(side="top")
+#inserting points
+s_x = tk.Entry(point1,width=6)
+s_x.grid(row=1,column=1)
+
+s_y=tk.Entry(point1,width=6)
+s_y.grid(row=1,column=3)
+
+e_x = tk.Entry(point2,width=6)
+e_x.pack(side="left")
+
+e_y=tk.Entry(point2,width=6)
+e_y.pack(side="left")
+# factor in weight or not:
+w_1 = tk.Radiobutton(weight,text='Yes',
+                    variable=var2, bg='white',value='y',command =set_weight)
+w_1.pack(side="left")
+w_2 = tk.Radiobutton(weight,text='No',
+                    variable=var2,bg='white',value='n')
+w_2.pack(side="left")
+# input max weight:
+l = tk.Label(w_select,width=5, text='max:',bg='white')
+l.pack(side="left")
+
+w=tk.Entry(w_select,width=5)
+w.pack(side="left")
+dw = tk.Label(w_select,width=5, text='(kg)',bg='white')
+dw.pack(side="left")
+
+# list of files:
+number = tk.StringVar()
+numberChosen = ttk.Combobox(file, width=22, textvariable=number)
+numberChosen['values'] = ("warehouse-orders-1item.csv", "warehouse-orders-3item.csv", "warehouse-orders-5item.csv", "warehouse-orders-10item.csv", "warehouse-orders-21item.csv")
+numberChosen.pack(side = "top")
+numberChosen.current(0)
+
+#draw something
+fig = Figure(figsize=(3, 3.5), dpi=100)
+a = fig.add_subplot(111)
+a.set_axis_off()
+plt.xlim(-1,21)
+plt.ylim(-1,21)
+for i in range(1,11):
+    for j in range(1,11):
+        a.plot(2*i,2*j,'go')
+
+
+# at the end:
+b = tk.Button(bottomframe, text='Start!', width=5,
+              height=1, command=hit_me)
+b.grid(row=3,column=1)
+
+# qwer = tk.Button(bottomframe, text='lol', width=5,
+#               height=1, command=right.restart)
+# qwer.grid(row=4,column=1)
+win.mainloop()
+
+
 
 
 

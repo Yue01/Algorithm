@@ -220,10 +220,14 @@ def find_path(Node,append_list):
 
 #之前的主程序
 def branch(dict2,weight_dict,start_point,end_point,w,dict4):
+    global op_path
+    global upper_bound
+    upper_bound=sys.maxint
     # store the distance matrix
-    dict=dict2.copy()
+    dict=cp.deepcopy(dict2)
     weight=weight_dict.copy()
     # there can't be same spot to calculate the mst using this method
+    cal_dict = cp.deepcopy(dict)
     dict=check(dict)
     list=[]
 
@@ -279,7 +283,8 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
     ry=list[end_cur][1]*2
     append_list.append([rx,ry])
     #append list include all the nodes: with start and end
-
+    print "nodes we have"
+    print append_list
     mat = []
     for i in range(0,len(append_list)):
         dis=[]
@@ -336,35 +341,31 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
         # print "mat"
         q.put(curNode)
 
-
     while not q.empty():
-        global upper_bound
         n=q.get()
         if(n.value>=upper_bound):
             break
         else:
-            if q.empty():
-                break
+            if(len(n.path)==len(list)-1):
+                if(upper_bound>500):
+                    upper_bound=n.value
+                    can_path=n.path
+                    continue
+                else:
+                    op_path=n.path
+                    break
             else:
-                if(len(n.path)==len(list)-1):
-                    m=q.queue[0]
-                    if(m.value>=n.value):
-                        op_path=n.path
-                        break
-                    else:
-                        if(upper_bound>n.value):
-                            upper_bound=n.value
-                            can_path=n.path
                 find_path(n,append_list)
-                print "lv ", n.level, " value ", n.value," path ", n.path
-                print "mat"
-                print  n.matrix
                 q.put(n)
-
+    # print "cekfjasdkfjasdfklasdjlk"
+    # while not q.empty():
+    #     best =  q.get()
+    #     print "lv ", best.level, " value ", best.value," path ", best.path
+    #     print "mat"
+    #     print  best.matrix
     if(len(op_path)==0):
         op_path=can_path
     op_path.append(append_list[len(append_list)-1])
-    print op_path
     if(w=="y"):
         cal_path_w(op_path,weight,dict2,dict4)
     else:
