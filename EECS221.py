@@ -10,6 +10,9 @@ import graphviz as gv
 from BNB import branch
 from MST import generatemst
 from MST import check
+import Tkinter as tk
+import ttk
+from Tkinter import *
 
 #original path length
 origin=0
