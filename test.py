@@ -1,30 +1,61 @@
-import Tkinter as tk
-import ttk
-from Tkinter import *
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 
 
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+# implement the default mpl key bindings
+from matplotlib.backend_bases import key_press_handler
 
 
-win = tk.Tk()
-var = tk.StringVar()
-win.title('EECS221A App')
-win.geometry('400x500')
+from matplotlib.figure import Figure
 
-w=tk.Label(win, width=20, text='Factor in weight?')
-w.grid(row=1,column=1)
+import sys
+if sys.version_info[0] < 3:
+    import Tkinter as Tk
+else:
+    import tkinter as Tk
+
+root = Tk.Tk()
+root.wm_title("Embedding in TK")
+
+all = Tk.Frame(root)
+all.pack(side="right")
+
+f = Figure(figsize=(5, 4), dpi=100)
+a = f.add_subplot(111)
+plt.xlim(-1,21)
+plt.ylim(-1,21)
+for i in range(1,11):
+    for j in range(1,11):
+        a.plot(2*i,2*j,'go')
 
 
-r1 = tk.Radiobutton(win,text='Nearest Neighbor',
-                    variable=var, value='n'
-                    )
-r1.grid(row=2,column=1)
-r2 = tk.Radiobutton(win,text='Branch and Bound',
-                    variable=var, value='b')
-r2.grid(row=3,column=1)
-ws=tk.Label(win, width=20, text='If yes, input max weight:')
-ws.grid(row=4,column=1)
+# a tk.DrawingArea
+canvas = FigureCanvasTkAgg(f, master=all)
+canvas.draw()
+canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
+
+toolbar = NavigationToolbar2TkAgg(canvas, root)
+toolbar.update()
+canvas._tkcanvas.pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
 
 
+def on_key_event(event):
+    print('you pressed %s' % event.key)
+    key_press_handler(event, canvas, toolbar)
+
+canvas.mpl_connect('key_press_event', on_key_event)
 
 
-win.mainloop()
+def _quit():
+    root.quit()     # stops mainloop
+    root.destroy()  # this is necessary on Windows to prevent
+                    # Fatal Python Error: PyEval_RestoreThread: NULL tstate
+
+button = Tk.Button(master=root, text='Quit', command=_quit)
+button.pack(side=Tk.BOTTOM)
+
+Tk.mainloop()
+# If you put root.destroy() here, it will cause an error if
+# the window is closed with the window manager.

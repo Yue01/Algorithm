@@ -1,4 +1,8 @@
-import Tkinter as tk
+import sys
+if sys.version_info[0] < 3:
+    import Tkinter as tk
+else:
+    import tkinter as tk
 import ttk
 from Tkinter import *
 
