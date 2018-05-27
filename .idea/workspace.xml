@@ -48,8 +48,8 @@
       <file leaf-file-name="test.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+            <state>
+              <caret selection-end-line="1" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -260,7 +260,7 @@
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20402685" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36081082" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.36081082" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39438504" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -660,8 +660,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
+        <state>
+          <caret selection-end-line="1" selection-end-column="23" />
         </state>
       </provider>
     </entry>
