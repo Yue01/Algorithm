@@ -82,6 +82,10 @@ def cal_distance(x1,x2,y1,y2,direction1,direction2):
 
 # factor in weight or not
 def cal_path_w(list,weight,dict2,dict4):
+    # used to store the nodes information
+    temp_dict={}
+    # info: [weight, x, y]
+    info=[]
     #dict4: [key, itemnum]
     #weight:[itemnum, weight]
     #dict2[key, position]
@@ -92,6 +96,10 @@ def cal_path_w(list,weight,dict2,dict4):
     now_dict = dict2.copy()
     x_1=list[0][0]
     y_1=list[0][1]
+    info.append(0)
+    info.append(x_1)
+    info.append(y_1)
+    temp_dict[0]=info
     print "BNB"
     print "If weight in factor, the path will be: "
     print"(",x_1,",",y_1,")->",
@@ -110,41 +118,67 @@ def cal_path_w(list,weight,dict2,dict4):
         now_dict.pop(select)
         num_dict.pop(select)
 
-    for i in range(1,len(list)):
+    for i in range(1,len(list)-1):
         x_2=list[i][0]
         y_2=list[i][1]
         tem_w = 0
-        print"now we will use ", dict4[i],
         try:
-            tem_w=weight[dict4[i]]
+            # for this part about why I give a random weight: please see the EECS221.py in line 394, thanks!
+            #tem_w=weight[dict4[i]]
+            tem_w=random.randint(1, 5)
         except KeyError:
             tem_w=0
             print "(weight missing! )",
+        info=[]
+        info.append(tem_w)
+        info.append(x_2)
+        info.append(y_2)
+        temp_dict[i]=info
         print"(",x_2,",",y_2,")->",
         now_w = (abs(x_1-x_2)+abs(y_1-y_2))*tem_w
         x_1=x_2
         y_1=y_2
+    info=[]
+    info.append(0)
+    info.append(list[len(list)-1][0])
+    info.append(list[len(list)-1][1])
+    temp_dict[len(list)-1]=info
 
     print "END"
     print "The total effort is :", now_w
+    return temp_dict
+
 
 
 def cal_path_nw(list):
+    temp_dict={}
+    info=[]
     nw_length=0
     x_1=list[0][0]
     y_1=list[0][1]
+    info.append(0)
+    info.append(x_1)
+    info.append(y_1)
+    temp_dict[0]=info
     print "BNB"
     print "If weight not in factor, the path will be: "
     print"(",x_1,",",y_1,")->",
     for i in range(1,len(list)):
+        info=[]
         x_2=list[i][0]
         y_2=list[i][1]
         nw_length+=abs(x_1-x_2)+abs(y_1-y_2)
         x_1=x_2
         y_1=y_2
+        info.append(0)
+        info.append(x_2)
+        info.append(y_2)
+        temp_dict[i]=info
         print"(",x_2,",",y_2,")->",
+
     print "END"
     print "The total cost with B&B will be:", nw_length
+    print temp_dict
 
 
 # 根据reduced matrix选择路径，不改变原来的matrix
@@ -340,7 +374,7 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
         # print "lv ", curNode.level, " value ", curNode.value," path ", curNode.path
         # print "mat"
         q.put(curNode)
-
+    op_path=[]
     while not q.empty():
         n=q.get()
         if(n.value>=upper_bound):
@@ -367,9 +401,9 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
         op_path=can_path
     op_path.append(append_list[len(append_list)-1])
     if(w=="y"):
-        cal_path_w(op_path,weight,dict2,dict4)
+        return cal_path_w(op_path,weight,dict2,dict4)
     else:
-        cal_path_nw(op_path)
+        return cal_path_nw(op_path)
 
 
 #while not q.empty():

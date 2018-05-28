@@ -39,8 +39,14 @@ orderdict={} # for all the orders
 def set_al():
     global choice
     choice = 'b'
+def set_al_1():
+    global choice
+    choice = 'n'
 
 def set_weight():
+    global w
+    w='y'
+def set_weight_2():
     global w
     w='n'
 #the start button activity in GUI
@@ -48,14 +54,12 @@ def hit_me():
     global order_name
     global start_point
     global end_point
+    canvas_list=[]
     start_point[0]=int(s_x.get())
     start_point[1]=int(s_y.get())
     end_point[0]=int(e_x.get())
     end_point[1]=int(e_y.get())
     order_name=str(numberChosen.get())
-    canvas = FigureCanvasTkAgg(fig, master=right)
-    canvas.draw()
-    canvas.get_tk_widget().pack(side="right", expand=1)
     with open(order_name, 'r') as f:
         read = csv.reader(f)
         all = list(read)
@@ -65,10 +69,17 @@ def hit_me():
             # first calculate the distance that the original order covers
             original(order)
             # then with the optimal path
-            singleorder(order)
+            canvas_dict=singleorder(order)
+            canvas_list.append(canvas_dict)
             # use the mst to generate a lower bound
             #generatemst(order, start_point,end_point)
     f.close()
+    print "now we have ", len(canvas_list),"canvas to draw"
+    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    canvas = FigureCanvasTkAgg(fig, master=right)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side="right", expand=1)
+    canvas_dict={}
 
 
 # used for data transfer
@@ -161,8 +172,8 @@ def singleorder(order):
     #generatemst(dict2,start_point,end_point)
     # using Branch and Bound algorithm
     if(choice=="b"):
-        branch(dict2,dict_w,start_point,end_point,w,dict5)
-        return
+        return branch(dict2,dict_w,start_point,end_point,w,dict5)
+
 
     # improvement for nearest neighbour
     start_time = time.time()  # remember when we started
@@ -251,6 +262,8 @@ def singleorder(order):
     print pathlist
     print("7. Here is the optimal path:")
     if(w=="n"):
+        temp_dict={}
+        info=[]
         print "Nearest Neighbor:"
         print "If weight not in factor, the path will be:"
         print("("),
@@ -259,12 +272,21 @@ def singleorder(order):
         print(","),
         print(start_point[1]*2),
         starty=start_point[1]*2
+        info.append(0)
+        info.append(startx)
+        info.append(starty)
+        temp_dict[0]=info
         print(")->"),
         for i in range(len(pathlist)):
+            info=[]
             col = dict2[pathlist[i]]
             opt=opt+abs(col[0]*2-startx)+abs(col[1]*2-starty)
             startx=col[0]*2
             starty=col[1]*2
+            info.append(0)
+            info.append(startx)
+            info.append(starty)
+            temp_dict[i+1]=info
             print("("),
             print(col[0]*2),
             print(","),
@@ -273,6 +295,11 @@ def singleorder(order):
         endx=end_point[0]*2
         endy=end_point[1]*2
         opt=opt+abs(endx-startx)+abs(endy-starty)
+        info=[]
+        info.append(0)
+        info.append(endx)
+        info.append(endy)
+        temp_dict[len(pathlist)+1]=info
         print("("),
         print(end_point[0]*2),
         print(","),
@@ -281,19 +308,24 @@ def singleorder(order):
         print("END")
         print("8. The optimal path length is : "),
         print opt
+        print "info~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        print temp_dict
         print("\n")
-        return
+        return temp_dict
     else:
+        temp_dict={}
+        info=[]
+
         list=[]
         total_weight=0
         weight={}
         # 选择之后的path顺序
         list=copy.copy(pathlist)
         #dict5里存有相应序号对应的itemid
-        num_dict = dict5.copy()
+        num_dict = copy.deepcopy(dict5)
         #weight有所有物品的重量
-        weight=dict_w.copy()
-        now_dict = dict2.copy()
+        weight=copy.deepcopy(dict_w)
+        now_dict = copy.deepcopy(dict2)
         tem_list = []
         tem_list.append(0)
         s=''
@@ -315,29 +347,59 @@ def singleorder(order):
         print "If weight in factor, the path will be: "
         x_1=start_point[0]*2
         y_1=start_point[1]*2
+        info.append(0)
+        info.append(x_1)
+        info.append(y_1)
+        temp_dict[0]=info
         print"(",x_1,",",y_1,")->",
         now_w=0
         for i in range(1,len(list)):
+            info=[]
             col = dict2[list[i]]
             x_2=col[0]*2
             y_2=col[1]*2
             tem_w = 0
             try:
-                tem_w=weight[dict5[tem_list[i-1]]]
+                # To professor:
+                # Here I am confused that almost all the itemid in "weight" and "item" don't match, and I don't know why
+                # for example, I looked up all the ids in 5-item order, none of them shows up in "weight" csv
+                # as a result, almost all the nodes show: weight missing
+                # to prove that my algorithm works: give them random value from 1-5,and use this for batch processing
+                # such is the same with bnb. Please inform me if I'm wrong or how to fix this! Thanks!
+                # to find the weight from the file:
+                # tem_w=weight[dict5[tem_list[len(list)-1]]]
+                tem_w = random.randint(1, 5)
                 total_weight+=tem_w
                 print "(weight: ",tem_w,")",
             except KeyError:
                 tem_w=0
                 total_weight+=tem_w
                 print "(weight missing! )",
+            info.append(tem_w)
+            info.append(x_2)
+            info.append(y_2)
+            temp_dict[i]=info
             print"(",x_2,",",y_2,")->",
             now_w += (abs(x_1-x_2)+abs(y_1-y_2))*total_weight
             x_1=x_2
             y_1=y_2
         x_2=end_point[0]*2
         y_2=end_point[1]*2
+        info=[]
+        info.append(0)
+        info.append(x_2)
+        info.append(y_2)
+        temp_dict[len(list)]=info
         try:
-            tem_w=weight[dict5[tem_list[len(list)-1]]]
+            # To professor:
+            # Here I am confused that almost all the itemid in "weight" and "item" don't match, and I don't know why
+            # for example, I looked up all the ids in 5-item order, none of them shows up in item csv
+            # as a result, almost all the nodes show: weight missing
+            # to prove that my algorithm works: give them random value from 1-5,and use this for batch processing
+            # such is the same with bnb. Please inform me if I'm wrong or how to fix this! Thanks!
+            # to find the weight from the file:
+            # tem_w=weight[dict5[tem_list[len(list)-1]]]
+            tem_w = random.randint(1, 5)
             total_weight+=tem_w
             print "(weight: ",tem_w," )",
         except KeyError:
@@ -348,7 +410,7 @@ def singleorder(order):
     print "END"
     print "The total effort is :", now_w
     print
-    print
+    return temp_dict
 
 
 # for all orders
@@ -376,7 +438,7 @@ win = tk.Tk()
 var1= tk.StringVar()
 var2 = tk.StringVar()
 win.title('EECS221A App')
-win.geometry('500x360')
+win.geometry('190x350')
 
 
 all = Frame(win)
@@ -427,7 +489,7 @@ l = tk.Label(algorithm,width=20, text='1.Algorithm',bg='white')
 l.pack(side="top")
 # selection
 r1 = tk.Radiobutton(al_select,text='Nearest Neighbor',
-                    variable=var1, bg='white',value='n')
+                    variable=var1, bg='white',value='n',command  = set_al_1)
 r1.pack(side="top")
 r2 = tk.Radiobutton(al_select,text='Branch and Bound',
                     variable=var1, bg='white',value='b',command = set_al)
@@ -449,7 +511,7 @@ w_1 = tk.Radiobutton(weight,text='Yes',
                     variable=var2, bg='white',value='y',command =set_weight)
 w_1.pack(side="left")
 w_2 = tk.Radiobutton(weight,text='No',
-                    variable=var2,bg='white',value='n')
+                    variable=var2,bg='white',value='n',command = set_weight_2)
 w_2.pack(side="left")
 # input max weight:
 l = tk.Label(w_select,width=5, text='max:',bg='white')
