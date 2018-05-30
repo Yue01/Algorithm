@@ -21,6 +21,8 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from draw import receive
+from draw import original_start
 
 #original path length
 origin=0
@@ -30,6 +32,7 @@ start_point=[0,0]
 end_point=[0,0]
 choice = 'n'
 w='n'
+canvas_list=[]
 
 # use a dictionary to save all the nodes
 dict={}  # for all the items
@@ -51,6 +54,7 @@ def set_weight_2():
     w='n'
 #the start button activity in GUI
 def hit_me():
+    global canvas_list
     global order_name
     global start_point
     global end_point
@@ -76,10 +80,35 @@ def hit_me():
     f.close()
     print "now we have ", len(canvas_list),"canvas to draw"
     print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    canvas = FigureCanvasTkAgg(fig, master=right)
-    canvas.draw()
-    canvas.get_tk_widget().pack(side="right", expand=1)
-    canvas_dict={}
+    num_of_res.set(len(canvas_list))
+    # canvas = FigureCanvasTkAgg(fig, master=right)
+    # canvas.draw()
+    # canvas.get_tk_widget().pack(side="right", expand=1)
+def show_result():
+    global canvas_list
+    global w
+    print canvas_list
+    num_order=int(choose_input.get())
+    no_w = int(w_qwer.get())
+    review = str(receive(canvas_list[num_order-1],no_w,w))
+    fd.set(review)
+
+def start_show():
+    sl = []
+    sl.append(0)
+    start_point[0]=int(s_x.get())
+    start_point[1]=int(s_y.get())
+    sl.append(start_point[0])
+    sl.append(start_point[1])
+    el=[]
+    el.append(0)
+    end_point[0]=int(e_x.get())
+    end_point[1]=int(e_y.get())
+    el.append(end_point[0])
+    el.append(end_point[1])
+    review = str(original_start(sl,el))
+    fd.set(review)
+
 
 
 # used for data transfer
@@ -438,7 +467,7 @@ win = tk.Tk()
 var1= tk.StringVar()
 var2 = tk.StringVar()
 win.title('EECS221A App')
-win.geometry('190x350')
+win.geometry('190x490')
 
 
 all = Frame(win)
@@ -475,13 +504,26 @@ f=tk.Label(left, width=20, text='6.Which file to process?',bg='white')
 f.pack(side="top")
 file= Frame(left)
 file.pack(side = "top")
+rs=tk.Label(left, width=20, text='7.Results in the batch file',bg='white')
+rs.pack(side="top")
+res_show = Frame(left)
+res_show.pack(side="top")
 # right_sentence=tk.Label(right, width=20, text='The result is shown here:')
 # right_sentence.pack(side="top")
 end= Frame(right)
 end.pack(side = "top")
 
 bottomframe = Frame(left)
-bottomframe.pack( side = "bottom" )
+bottomframe.pack( side = "top" )
+# now it's time to draw
+ch=tk.Label(left, width=20, text='8.Show one of the result:',bg='white')
+ch.pack(side="top")
+fd = tk.StringVar()
+feedback = tk.Label(left, textvariable=fd, bg='grey', font=('Arial', 8), width=15,
+             height=2)
+feedback.pack(side="top")
+choose = Frame(left)
+choose.pack(side="top")
 
 
 # first title
@@ -517,8 +559,8 @@ w_2.pack(side="left")
 l = tk.Label(w_select,width=5, text='max:',bg='white')
 l.pack(side="left")
 
-w=tk.Entry(w_select,width=5)
-w.pack(side="left")
+w_qwer=tk.Entry(w_select,width=5)
+w_qwer.pack(side="left")
 dw = tk.Label(w_select,width=5, text='(kg)',bg='white')
 dw.pack(side="left")
 
@@ -530,20 +572,34 @@ numberChosen.pack(side = "top")
 numberChosen.current(0)
 
 #draw something
-fig = Figure(figsize=(3, 3.5), dpi=100)
-a = fig.add_subplot(111)
-a.set_axis_off()
-plt.xlim(-1,21)
-plt.ylim(-1,21)
-for i in range(1,11):
-    for j in range(1,11):
-        a.plot(2*i,2*j,'go')
+# fig = Figure(figsize=(3, 3.5), dpi=100)
+# a = fig.add_subplot(111)
+# a.set_axis_off()
+# plt.xlim(-1,21)
+# plt.ylim(-1,21)
+# for i in range(1,11):
+#     for j in range(1,11):
+#         a.plot(2*i,2*j,'go')
 
-
+# to show the information
+num_of_res = tk.StringVar()
+nos = tk.Label(res_show, textvariable=num_of_res, bg='grey', font=('Arial', 8), width=15,
+             height=2)
+nos.pack(side="top")
 # at the end:
-b = tk.Button(bottomframe, text='Start!', width=5,
+b = tk.Button(bottomframe, text='Start', width=5,
               height=1, command=hit_me)
 b.grid(row=3,column=1)
+choose_input = tk.Entry(choose,width=3)
+choose_input.pack(side="left")
+
+draw = tk.Button(choose, text='Add', width=4,
+              height=1, command=show_result)
+draw.pack(side="left")
+go_button = tk.Button(choose, text='Go!', width=3,
+              height=1, command=start_show)
+go_button.pack(side="left")
+
 
 # qwer = tk.Button(bottomframe, text='lol', width=5,
 #               height=1, command=right.restart)

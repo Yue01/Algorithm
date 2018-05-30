@@ -178,7 +178,7 @@ def cal_path_nw(list):
 
     print "END"
     print "The total cost with B&B will be:", nw_length
-    print temp_dict
+    return temp_dict
 
 
 # 根据reduced matrix选择路径，不改变原来的matrix

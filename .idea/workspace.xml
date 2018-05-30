@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8bc3f0-4ce1-4164-b693-85e8edeb5cae" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/draw.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BNB.py" beforeDir="false" afterPath="$PROJECT_DIR$/BNB.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EECS221.py" beforeDir="false" afterPath="$PROJECT_DIR$/EECS221.py" afterDir="false" />
     </list>
@@ -18,8 +20,8 @@
       <file leaf-file-name="EECS221.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EECS221.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="440" column="20" selection-start-line="440" selection-start-column="20" selection-end-line="440" selection-end-column="20" />
+            <state relative-caret-position="235">
+              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
               <folding>
                 <element signature="e#71#84#0" expanded="true" />
               </folding>
@@ -30,8 +32,8 @@
       <file leaf-file-name="BNB.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BNB.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="125" column="98" selection-start-line="125" selection-start-column="98" selection-end-line="125" selection-end-column="98" />
+            <state relative-caret-position="855">
+              <caret line="180" column="10" selection-start-line="180" selection-start-column="10" selection-end-line="180" selection-end-column="10" />
               <folding>
                 <element signature="e#90#108#0" expanded="true" />
               </folding>
@@ -39,11 +41,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="demo.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/demo.py">
+      <file leaf-file-name="draw.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/draw.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+            <state relative-caret-position="-802">
+              <caret line="52" selection-start-line="52" selection-end-line="52" />
+              <folding>
+                <element signature="e#71#84#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -63,7 +68,6 @@
       <find>4</find>
       <find>order</find>
       <find>dict</find>
-      <find>key</find>
       <find>pop</find>
       <find>list</find>
       <find>cal</find>
@@ -79,6 +83,10 @@
       <find>sele</find>
       <find>var</find>
       <find>single</find>
+      <find>key</find>
+      <find>Label</find>
+      <find>rwer</find>
+      <find>priori</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -92,22 +100,22 @@
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/demo.py" />
         <option value="$PROJECT_DIR$/BNB.py" />
+        <option value="$PROJECT_DIR$/draw.py" />
         <option value="$PROJECT_DIR$/EECS221.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="335" />
-    <option name="y" value="52" />
-    <option name="width" value="978" />
-    <option name="height" value="1089" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="753" />
+    <option name="y" value="50" />
+    <option name="width" value="980" />
+    <option name="height" value="1090" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Course" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -119,6 +127,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Course" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -253,13 +262,13 @@
     <configuration />
   </component>
   <component name="ToolWindowManager">
-    <frame x="268" y="42" width="782" height="871" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20241287" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0997358" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.4008097" />
+      <window_info anchor="bottom" id="Python Console" order="7" weight="0.32884097" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32486632" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39438504" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -292,13 +301,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/EECS221.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2584">
-          <caret line="144" column="8" selection-start-line="144" selection-start-column="8" selection-end-line="144" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BNB.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2641">
@@ -642,25 +644,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/demo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
+        <state relative-caret-position="133">
           <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BNB.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="125" column="98" selection-start-line="125" selection-start-column="98" selection-end-line="125" selection-end-column="98" />
+        <state relative-caret-position="855">
+          <caret line="180" column="10" selection-start-line="180" selection-start-column="10" selection-end-line="180" selection-end-column="10" />
           <folding>
             <element signature="e#90#108#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/draw.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-802">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
+          <folding>
+            <element signature="e#71#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/EECS221.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="440" column="20" selection-start-line="440" selection-start-column="20" selection-end-line="440" selection-end-column="20" />
+        <state relative-caret-position="235">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
           <folding>
             <element signature="e#71#84#0" expanded="true" />
           </folding>
