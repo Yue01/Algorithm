@@ -37,7 +37,35 @@ class item(object):
 
 # if without weight:
 def draw_without_w(dict):
-    print dict
+    root = tk.Tk()
+    root.title('EECS221A App')
+    root.geometry('320x450')
+    f = Figure(figsize=(3, 3.5), dpi=100)
+    a = f.add_subplot(111)
+    a.set_axis_off()
+    plt.xlim(-1,21)
+    plt.ylim(-1,21)
+    for i in range(1,11):
+        for j in range(1,11):
+            a.plot(2*i,2*j,'go')
+    for key in dict:
+        if key==0:
+            startx = dict[key][1]
+            starty=dict[key][2]
+            a.plot(startx,starty,'ro')
+        else:
+            a.plot(dict[key][1],dict[key][2],'ro')
+            a.plot([dict[key][1],startx],[dict[key][2],starty],'k')
+            startx = dict[key][1]
+            starty=dict[key][2]
+
+    canvas = FigureCanvasTkAgg(f, master=root)
+    canvas.draw()
+    canvas.get_tk_widget().pack(side="top", expand=1)
+    go_button = tk.Button(root, text='Quit!', width=3,
+              height=1, command=root.destroy)
+    go_button.pack(side="top")
+    root.mainloop()
 
 
 
@@ -69,9 +97,6 @@ def receive(can_dict,max,w_o_n):
         if sum<max:
             return "Can still add more!"
         else:
-            # while not queue.empty():
-            #     cur = queue.get()
-            #     print cur.list
             return "It's full!"
     else:
         dict=copy.deepcopy(can_dict)

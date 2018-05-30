@@ -126,6 +126,9 @@ plt.ylim(-1,21)
 for i in range(1,11):
     for j in range(1,11):
         a.plot(2*i,2*j,'go')
+a.plot(3,3,'ro')
+a.plot(7,7,'ro')
+a.plot([3,7],[3,7],'k')
 
 
 # at the end:
