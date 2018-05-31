@@ -34,6 +34,9 @@ choice = 'n'
 w='n'
 canvas_list=[]
 
+# to define left or right in NN:
+direction = 1
+
 # use a dictionary to save all the nodes
 dict={}  # for all the items
 dict_w={} # for weight information
@@ -156,6 +159,23 @@ while (time.time() - start_time) < max_time:
 '''
 
 # functions
+def get_dis(x1,y1,x2,y2):
+    global direction
+    if(x1<x2):
+        if(direction==1):
+            direction=-1
+            return abs(x2-x1-2)+abs(y2-y1)
+        else:
+            return abs(x2-x1)+abs(y2-y1)
+    elif(x1>x2):
+        if(direction==1):
+            return abs(x2-x1)+abs(y2-y1)
+        else:
+            direction=1
+            return abs(x2-x1-2)+abs(y2-y1)
+    else:
+        return abs(y2-y1)
+
 
 
 # original path length
@@ -206,7 +226,7 @@ def singleorder(order):
 
     # improvement for nearest neighbour
     start_time = time.time()  # remember when we started
-    while (time.time() - start_time) < 2:
+    while (time.time() - start_time) <0.5:
         opt=0
         curd=0
         pathlist=[]
@@ -291,6 +311,9 @@ def singleorder(order):
     print pathlist
     print("7. Here is the optimal path:")
     if(w=="n"):
+        global direction
+        opt=0
+        direction =1
         temp_dict={}
         info=[]
         print "Nearest Neighbor:"
@@ -309,11 +332,12 @@ def singleorder(order):
         for i in range(len(pathlist)):
             info=[]
             col = dict2[pathlist[i]]
-            opt=opt+abs(col[0]*2-startx)+abs(col[1]*2-starty)
+            opt+=get_dis(startx,starty,col[0]*2,col[1]*2)
+            #opt=opt+abs(col[0]*2-startx)+abs(col[1]*2-starty)
             startx=col[0]*2
             starty=col[1]*2
             info.append(0)
-            info.append(startx)
+            info.append(startx+direction)
             info.append(starty)
             temp_dict[i+1]=info
             print("("),
@@ -323,10 +347,11 @@ def singleorder(order):
             print(")->"),
         endx=end_point[0]*2
         endy=end_point[1]*2
-        opt=opt+abs(endx-startx)+abs(endy-starty)
+        #opt=opt+abs(endx-startx)+abs(endy-starty)
+        opt+=get_dis(startx,starty,endx,endy)
         info=[]
         info.append(0)
-        info.append(endx)
+        info.append(endx+direction)
         info.append(endy)
         temp_dict[len(pathlist)+1]=info
         print("("),
@@ -342,6 +367,7 @@ def singleorder(order):
         print("\n")
         return temp_dict
     else:
+        direction=1
         temp_dict={}
         info=[]
 
@@ -377,10 +403,10 @@ def singleorder(order):
         x_1=start_point[0]*2
         y_1=start_point[1]*2
         info.append(0)
-        info.append(x_1)
+        info.append(x_1+direction)
         info.append(y_1)
         temp_dict[0]=info
-        print"(",x_1,",",y_1,")->",
+        print"(",x_1+direction,",",y_1,")->",
         now_w=0
         for i in range(1,len(list)):
             info=[]
@@ -405,11 +431,12 @@ def singleorder(order):
                 total_weight+=tem_w
                 print "(weight missing! )",
             info.append(tem_w)
-            info.append(x_2)
+            wdis = get_dis(x_1,y_1,x_2,y_2)
+            info.append(x_2+direction)
             info.append(y_2)
             temp_dict[i]=info
-            print"(",x_2,",",y_2,")->",
-            now_w += (abs(x_1-x_2)+abs(y_1-y_2))*total_weight
+            print"(",x_2+direction,",",y_2,")->",
+            now_w += wdis*total_weight
             x_1=x_2
             y_1=y_2
         x_2=end_point[0]*2
