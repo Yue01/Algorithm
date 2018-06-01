@@ -44,7 +44,15 @@ def bnb(tem,i):
                 cur_sum+=row[m]
         return cur_sum
 
-
+def BNB_reset():
+    global op_path
+    global upper_bound
+    global can_path
+    global  traverse
+    upper_bound=sys.maxint
+    can_path=[]
+    op_path=[]
+    traverse=[]
 class Node(object):
     def __init__(self,level,tail,value,matrix , path):
         self.level=level
@@ -90,8 +98,7 @@ def cal_path_w(list,weight,dict2,dict4):
     #weight:[itemnum, weight]
     #dict2[key, position]
     num_dict = dict4.copy()
-    print dict4
-    print num_dict
+
     now_w=0
     now_dict = dict2.copy()
     x_1=list[0][0]
@@ -115,8 +122,11 @@ def cal_path_w(list,weight,dict2,dict4):
                 s=num_dict[key]
                 s1=int(s)
                 tem_list.append(s1)
-        now_dict.pop(select)
-        num_dict.pop(select)
+        try:
+            now_dict.pop(select)
+            num_dict.pop(select)
+        except KeyError:
+            print ""
 
     for i in range(1,len(list)-1):
         x_2=list[i][0]
@@ -125,9 +135,9 @@ def cal_path_w(list,weight,dict2,dict4):
         try:
             # for this part about why I give a random weight: please see the EECS221.py in line 394, thanks!
             #tem_w=weight[dict4[i]]
-            tem_w=random.randint(1, 5)
+            tem_w=2
         except KeyError:
-            tem_w=0
+            tem_w=2
             print "(weight missing! )",
         info=[]
         info.append(tem_w)
@@ -145,7 +155,6 @@ def cal_path_w(list,weight,dict2,dict4):
     temp_dict[len(list)-1]=info
 
     print "END"
-    print "The total effort is :", now_w
     return temp_dict
 
 
@@ -227,6 +236,8 @@ def find_path(Node,append_list):
         if(sum<short and sum<60):
             short=sum
             cur=i
+    if(short>300):
+        short= 300
     Node.value+=short
     Node.level+=1
     if(cur%2==0 and not cur==0):
@@ -237,18 +248,7 @@ def find_path(Node,append_list):
         Node.matrix[cur+1]=sys.maxint
     Node.tail=cur
     Node.path.append(append_list[Node.tail])
-    # print "Matrix is :"
-    # print Node.matrix
-    # print "value is "
-    # print Node.value
-    # print "short sum is "
-    # print short
-    # print "the current path si :"
-    # print Node.path
-    #print "value is :", Node.value
-    #print "path:", Node.path
-    #print "mat"
-    #print Node.matrix
+
 
 
 
@@ -281,27 +281,8 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
 
     # 这里的list包含了所有的点
     list.append(node)
-    # 如果只有一个item，那就无需规划了
-    # if(len(list)==3):
-    #     if(w=="y"):
-    #         cal_path_w(list,weight,dict2,dict4)
-    #     else:
-    #         cal_path_nw(list)
 
     list2= cp.copy(list)
-    # print "ahahah"
-    # print list
-    # # build the matrix with the list
-    # mat = []
-    # for i in range(0,len(list)):
-    #     dis=[]
-    #     for j in range(0,len(list)):
-    #         if(i==j):
-    #             dis.append(sys.maxint)
-    #         else:
-    #             dis.append(cal_distance(list[i][0],list[j][0],list[i][1],list[j][1],direction1,direction2))
-    #             dis.append(abs(list[i][0]-list[j][0])+abs(list[i][1]-list[j][1]))
-    #     mat.append(dis)
 
     append_list = []
     append_list.append(list[0])
@@ -317,8 +298,6 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
     ry=list[end_cur][1]*2
     append_list.append([rx,ry])
     #append list include all the nodes: with start and end
-    print "nodes we have"
-    print append_list
     mat = []
     for i in range(0,len(append_list)):
         dis=[]
@@ -391,12 +370,7 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
             else:
                 find_path(n,append_list)
                 q.put(n)
-    # print "cekfjasdkfjasdfklasdjlk"
-    # while not q.empty():
-    #     best =  q.get()
-    #     print "lv ", best.level, " value ", best.value," path ", best.path
-    #     print "mat"
-    #     print  best.matrix
+
     if(len(op_path)==0):
         op_path=can_path
     op_path.append(append_list[len(append_list)-1])
@@ -406,11 +380,6 @@ def branch(dict2,weight_dict,start_point,end_point,w,dict4):
         return cal_path_nw(op_path)
 
 
-#while not q.empty():
-    #best =  q.get()
-    #print "lv ", Node.level, " value ", Node.value," paht ", Node.path
-    #print "mat"
-    #print  Node.matrix
 
 
 

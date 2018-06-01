@@ -8,6 +8,8 @@ import sys
 import time
 import graphviz as gv
 from BNB import branch
+import Queue as Q
+from BNB import BNB_reset
 
 import sys
 if sys.version_info[0] < 3:
@@ -21,9 +23,20 @@ matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from draw import receive
-from draw import original_start
+from draw import draw_graph
+from draw import draw_reset
 
+
+
+class Item(object):
+    def __init__(self,list):
+        self.list=list
+        return
+    def __cmp__(self, other):
+        if(self.list[0]>other.list[0]):
+            return True
+        else:
+            return False
 #original path length
 origin=0
 opt=0
@@ -33,6 +46,10 @@ end_point=[0,0]
 choice = 'n'
 w='n'
 canvas_list=[]
+all_order_list=[]
+res_list=[]
+current_total_weight=0
+queue = Q.PriorityQueue()
 
 # to define left or right in NN:
 direction = 1
@@ -55,62 +72,154 @@ def set_weight():
 def set_weight_2():
     global w
     w='n'
+
+def read_latest():
+    qwerlist=[]
+    with open('result.txt', 'r') as file:
+        read = file.readline()
+        qwerlist = list(read)
+        for i in range(0,len(qwerlist)):
+            print qwerlist[i]
+
+
+def reset_para():
+    global current_total_weight
+    global queue
+    global canvas_list
+    current_total_weight=0
+    queue=Q.PriorityQueue()
+    canvas_list=[]
+    BNB_reset()
+    draw_reset()
 #the start button activity in GUI
 def hit_me():
     global canvas_list
     global order_name
     global start_point
     global end_point
+    global current_total_weight
+    current_total_weight=0
     canvas_list=[]
     start_point[0]=int(s_x.get())
     start_point[1]=int(s_y.get())
     end_point[0]=int(e_x.get())
     end_point[1]=int(e_y.get())
-    order_name=str(numberChosen.get())
-    with open(order_name, 'r') as f:
-        read = csv.reader(f)
-        all = list(read)
-        for i in range(len(all)):
-            each = str(all[i])[2:-2]
-            order = each.split()
-            # first calculate the distance that the original order covers
-            original(order)
+    #order_name=str(numberChosen.get())
+    with open('warehouse-orders-v02-tabbed.txt', 'r') as file:
+        read = file.readline()
+        while not (read==""):
+            if not read:
+                break
+            order = read.split()
+            all_order_list.append(order)
             # then with the optimal path
-            canvas_dict=singleorder(order)
-            canvas_list.append(canvas_dict)
-            # use the mst to generate a lower bound
-            #generatemst(order, start_point,end_point)
-    f.close()
-    print "now we have ", len(canvas_list),"canvas to draw"
-    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    num_of_res.set(len(canvas_list))
+            res_dict=singleorder(order)
+            res_list.append(res_dict)
+            read = file.readline()
+    file.close()
+    num_of_res.set(len(all_order_list))
     # canvas = FigureCanvasTkAgg(fig, master=right)
     # canvas.draw()
     # canvas.get_tk_widget().pack(side="right", expand=1)
-def show_result():
+def add_order():
+    global current_total_weight
     global canvas_list
     global w
-    print canvas_list
+    global all_order_list
+    x=0
+    y=0
+    #输入的order 号
     num_order=int(choose_input.get())
+    #最大的weight
     no_w = int(w_qwer.get())
-    review = str(receive(canvas_list[num_order-1],no_w,w))
-    fd.set(review)
+    cur_order = all_order_list[num_order-1]
+    for i in range(0,len(cur_order)):
+        cur_id = cur_order[i]
+    # To professor:
+    # Here I am confused that almost all the itemid in "weight" and "item" don't match
+    # for example, I looked up all the ids in the first 20 order, only 2 of the items show up in "weight" file
+    # as a result, almost all the nodes show: "weight missing" (when the weight is a factor),which I don't think makes sense
+    # So to prove that my algorithm really works: give them the default value,and use this for batch processing
+        if(w=="y"):
+            #weight= dict_w[cur_id]
+            weight=2
+        else:
+            weight=2
+        pos=dict[cur_id]
+        x=int(pos[0])
+        y=int(pos[1])
+        cur_info = [weight,x,y,cur_id]
+        new_item = Item(cur_info)
+        queue.put(new_item)
+        current_total_weight+=weight
+    if(w=="y" and current_total_weight>=no_w):
+        fd.set("It's full!")
+    else:
+        fd.set("Not full yet!")
 
-def start_show():
-    sl = []
-    sl.append(0)
-    start_point[0]=int(s_x.get())
-    start_point[1]=int(s_y.get())
-    sl.append(start_point[0])
-    sl.append(start_point[1])
-    el=[]
-    el.append(0)
-    end_point[0]=int(e_x.get())
-    end_point[1]=int(e_y.get())
-    el.append(end_point[0])
-    el.append(end_point[1])
-    review = str(original_start(sl,el))
-    fd.set(review)
+
+
+
+
+    #review = str(receive(canvas_list[num_order-1],no_w,w))
+    #fd.set(review)
+
+def process():
+    global canvas_list
+    #最大的weight
+    sum=0
+    no_w = int(w_qwer.get())
+    new_order=[]
+    new_res={}
+    if(w=="n"):
+        while not queue.empty():
+            first_item = queue.get()
+            new_order.append(first_item.list[3])
+        # optimal path
+        canvas_dict=singleorder(new_order)
+        canvas_list.append(canvas_dict)
+    else:
+        while not queue.empty():
+            first_item = queue.get()
+            print "The current stuff：：：：：：：：：：：：：：：：：：：：：：：：：：：："
+            print first_item.list
+            if(sum+int(first_item.list[0])>=no_w):
+                canvas_dict=singleorder(new_order)
+                canvas_list.append(canvas_dict)
+                new_order=[]
+                new_order.append(first_item.list[3])
+                sum=first_item.list[0]
+            else:
+                new_order.append(first_item.list[3])
+                sum+=first_item.list[0]
+        if not len(new_order)==0:
+            canvas_dict=singleorder(new_order)
+            canvas_list.append(canvas_dict)
+
+    print "current split is :"
+    print canvas_list
+    # f = open('result.txt','w')
+    # f.write(str(canvas_list))
+    # f.close()
+    draw_graph(canvas_list)
+
+
+
+
+    # sl = []
+    # sl.append(0)
+    # start_point[0]=int(s_x.get())
+    # start_point[1]=int(s_y.get())
+    # sl.append(start_point[0])
+    # sl.append(start_point[1])
+    # el=[]
+    # el.append(0)
+    # end_point[0]=int(e_x.get())
+    # end_point[1]=int(e_y.get())
+    # el.append(end_point[0])
+    # el.append(end_point[1])
+    # review = str(original_start(sl,el))
+    # fd.set(review)
 
 
 
@@ -196,6 +305,7 @@ def original(order):
 
 # for a single order:
 def singleorder(order):
+    global direction
     # the optimimal path length
     opt_final=sys.maxint
     pathlist_final=[]
@@ -222,11 +332,9 @@ def singleorder(order):
     # using Branch and Bound algorithm
     if(choice=="b"):
         return branch(dict2,dict_w,start_point,end_point,w,dict5)
-
-
     # improvement for nearest neighbour
     start_time = time.time()  # remember when we started
-    while (time.time() - start_time) <0.5:
+    while (time.time() - start_time) <0.01:
         opt=0
         curd=0
         pathlist=[]
@@ -242,7 +350,10 @@ def singleorder(order):
         tem = dict3[key2]
         curx = tem[0]
         cury = tem[1]
-        curd = abs(startx-curx)+abs(starty-cury)
+        temp_dir = direction
+        curd = get_dis(startx,starty,curx,cury)
+        direction=temp_dir
+        #curd = abs(startx-curx)+abs(starty-cury)
         opt= opt+curd
         startx=curx
         starty=cury
@@ -311,7 +422,6 @@ def singleorder(order):
     print pathlist
     print("7. Here is the optimal path:")
     if(w=="n"):
-        global direction
         opt=0
         direction =1
         temp_dict={}
@@ -415,13 +525,6 @@ def singleorder(order):
             y_2=col[1]*2
             tem_w = 0
             try:
-                # To professor:
-                # Here I am confused that almost all the itemid in "weight" and "item" don't match, and I don't know why
-                # for example, I looked up all the ids in 5-item order, none of them shows up in "weight" csv
-                # as a result, almost all the nodes show: weight missing
-                # to prove that my algorithm works: give them random value from 1-5,and use this for batch processing
-                # such is the same with bnb. Please inform me if I'm wrong or how to fix this! Thanks!
-                # to find the weight from the file:
                 # tem_w=weight[dict5[tem_list[len(list)-1]]]
                 tem_w = random.randint(1, 5)
                 total_weight+=tem_w
@@ -494,7 +597,7 @@ win = tk.Tk()
 var1= tk.StringVar()
 var2 = tk.StringVar()
 win.title('EECS221A App')
-win.geometry('190x490')
+win.geometry('170x500')
 
 
 all = Frame(win)
@@ -527,11 +630,11 @@ ws.pack(side="top")
 w_select = Frame(left)
 w_select.pack(side = "top")
 
-f=tk.Label(left, width=20, text='6.Which file to process?',bg='white')
-f.pack(side="top")
+# f=tk.Label(left, width=20, text='6.Which file to process?',bg='white')
+# f.pack(side="top")
 file= Frame(left)
 file.pack(side = "top")
-rs=tk.Label(left, width=20, text='7.Results in the batch file',bg='white')
+rs=tk.Label(left, width=20, text='6.Results in the batch file',bg='white')
 rs.pack(side="top")
 res_show = Frame(left)
 res_show.pack(side="top")
@@ -543,7 +646,7 @@ end.pack(side = "top")
 bottomframe = Frame(left)
 bottomframe.pack( side = "top" )
 # now it's time to draw
-ch=tk.Label(left, width=20, text='8.Show one of the result:',bg='white')
+ch=tk.Label(left, width=20, text='7.Show one of the result:',bg='white')
 ch.pack(side="top")
 fd = tk.StringVar()
 feedback = tk.Label(left, textvariable=fd, bg='grey', font=('Arial', 8), width=15,
@@ -551,7 +654,8 @@ feedback = tk.Label(left, textvariable=fd, bg='grey', font=('Arial', 8), width=1
 feedback.pack(side="top")
 choose = Frame(left)
 choose.pack(side="top")
-
+other_op=Frame(left)
+other_op.pack(side="top")
 
 # first title
 l = tk.Label(algorithm,width=20, text='1.Algorithm',bg='white')
@@ -592,11 +696,11 @@ dw = tk.Label(w_select,width=5, text='(kg)',bg='white')
 dw.pack(side="left")
 
 # list of files:
-number = tk.StringVar()
-numberChosen = ttk.Combobox(file, width=22, textvariable=number)
-numberChosen['values'] = ("warehouse-orders-1item.csv", "warehouse-orders-3item.csv", "warehouse-orders-5item.csv", "warehouse-orders-10item.csv", "warehouse-orders-21item.csv")
-numberChosen.pack(side = "top")
-numberChosen.current(0)
+# number = tk.StringVar()
+# numberChosen = ttk.Combobox(file, width=22, textvariable=number)
+# numberChosen['values'] = ("warehouse-orders-1item.csv", "warehouse-orders-3item.csv", "warehouse-orders-5item.csv", "warehouse-orders-10item.csv", "warehouse-orders-21item.csv")
+# numberChosen.pack(side = "top")
+# numberChosen.current(0)
 
 #draw something
 # fig = Figure(figsize=(3, 3.5), dpi=100)
@@ -621,11 +725,17 @@ choose_input = tk.Entry(choose,width=3)
 choose_input.pack(side="left")
 
 draw = tk.Button(choose, text='Add', width=4,
-              height=1, command=show_result)
+              height=1, command=add_order)
 draw.pack(side="left")
 go_button = tk.Button(choose, text='Go!', width=3,
-              height=1, command=start_show)
+              height=1, command=process)
 go_button.pack(side="left")
+latest = tk.Button(other_op, text='Latest', width=5,
+              height=1, command=read_latest)
+latest.pack(side="top")
+reset = tk.Button(other_op, text='Reset', width=5,
+              height=1, command=reset_para)
+reset.pack(side="top")
 
 
 # qwer = tk.Button(bottomframe, text='lol', width=5,
