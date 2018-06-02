@@ -17,6 +17,7 @@ def hit_me():
     print str(numberChosen.get())
     print int(s_x.get())
     print int(s_y.get())
+    print str(numberChosen.get())
     canvas = FigureCanvasTkAgg(f, master=right)
     canvas.draw()
     canvas.get_tk_widget().pack(side="right", expand=1)

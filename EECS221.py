@@ -17,6 +17,7 @@ if sys.version_info[0] < 3:
 else:
     import tkinter as tk
 import ttk
+import pickle
 from Tkinter import *
 import matplotlib
 matplotlib.use('TkAgg')
@@ -25,6 +26,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from draw import draw_graph
 from draw import draw_reset
+
 
 
 
@@ -50,6 +52,7 @@ all_order_list=[]
 res_list=[]
 current_total_weight=0
 queue = Q.PriorityQueue()
+default_weight=0
 
 # to define left or right in NN:
 direction = 1
@@ -73,24 +76,51 @@ def set_weight_2():
     global w
     w='n'
 
-# def read_latest():
-#     qwerlist=[]
-#     with open('result.txt', 'r') as file:
-#         read = file.readline()
-#         qwerlist = list(read)
-#         for i in range(0,len(qwerlist)):
-#             print qwerlist[i]
+def read_latest():
+    global res_list
+    global choice
+    global w
+    global default_weight
+    global start_point
+    global end_point
+    read_in_list=[]
+    if(str(numberChosen.get())=="NN with weight"):
+        pickle_in = open("nn_w.pickle","r")
+        choice="n"
+        w='y'
+    elif(str(numberChosen.get())=="NN without weight"):
+        pickle_in = open("nn.pickle","r")
+        choice="n"
+        w='n'
+    elif(str(numberChosen.get())=="B&B with weight"):
+        pickle_in = open("bb_w.pickle","r")
+        choice = "b"
+        w='y'
+    elif(str(numberChosen.get())=="B&B without weight"):
+        pickle_in = open("bb.pickle","r")
+        choice = "b"
+        w='n'
+    read_in_list = pickle.load(pickle_in)
+    default_weight = read_in_list[0][6]
+    start_point[0]=read_in_list[0][2]
+    start_point[1]=read_in_list[0][3]
+    end_point[0]=read_in_list[0][4]
+    end_point[1]=read_in_list[0][5]
+    print str(numberChosen.get()),",start:(",str(start_point[0]),",",str(start_point[1]),"),end:(",str(end_point[0]),",",str(end_point[1]),"),Max weight:",str(default_weight)
+    res_list = read_in_list[1]
 
 
 def reset_para():
     global current_total_weight
     global queue
     global canvas_list
+    global default_weight
     current_total_weight=0
     queue=Q.PriorityQueue()
     canvas_list=[]
     BNB_reset()
     draw_reset()
+    # default_weight=0
 #the start button activity in GUI
 def hit_me():
     global canvas_list
@@ -98,6 +128,8 @@ def hit_me():
     global start_point
     global end_point
     global current_total_weight
+    global choice
+    global w
     current_total_weight=0
     canvas_list=[]
     start_point[0]=int(s_x.get())
@@ -111,13 +143,46 @@ def hit_me():
             if not read:
                 break
             order = read.split()
-            all_order_list.append(order)
-            # then with the optimal path
             res_dict=singleorder(order)
             res_list.append(res_dict)
             read = file.readline()
     file.close()
     num_of_res.set(len(all_order_list))
+
+    # save in the batch file
+    save_res_list=[]
+    condition = []
+    if(choice=='b'):
+        condition.append("b")
+    else:
+        condition.append("n")
+    if(w=='n'):
+        condition.append("n")
+    if(w=='y'):
+        condition.append("y")
+    condition.append(start_point[0])
+    condition.append(start_point[1])
+    condition.append(end_point[0])
+    condition.append(end_point[1])
+    condition.append(int(w_qwer.get()))
+    save_res_list.append(condition)
+    save_res_list.append(res_list)
+    if(w=='y'):
+        if(choice=='b'):
+            pickle_out = open("bb_w.pickle","w")
+        else:
+            pickle_out = open("nn_w.pickle","w")
+    elif(w=='n'):
+        if(choice=='b'):
+            pickle_out = open("bb.pickle","w")
+        else:
+            pickle_out = open("nn.pickle","w")
+    pickle.dump(save_res_list,pickle_out)
+    pickle_out.close()
+
+
+
+
     # canvas = FigureCanvasTkAgg(fig, master=right)
     # canvas.draw()
     # canvas.get_tk_widget().pack(side="right", expand=1)
@@ -126,12 +191,17 @@ def add_order():
     global canvas_list
     global w
     global all_order_list
+    global default_weight
     x=0
     y=0
     #输入的order 号
     num_order=int(choose_input.get())
     #最大的weight
-    no_w = int(w_qwer.get())
+    try:
+        no_w = int(w_qwer.get())
+    except ValueError:
+        no_w = default_weight
+
     cur_order = all_order_list[num_order-1]
     cur_dict = res_list[num_order-1]
     for i in range(0,len(cur_order)):
@@ -170,17 +240,32 @@ def process():
     global canvas_list
     #最大的weight
     sum=0
-    no_w = int(w_qwer.get())
+    try:
+        no_w = int(w_qwer.get())
+    except ValueError:
+        no_w = default_weight
     new_order=[]
     new_res={}
     if(w=="n"):
+        # for no weight order: limit the number of items for 5
+        counter = 0
         while not queue.empty():
             first_item = queue.get()
-            new_order.append(first_item.list[3])
+            if(counter>4):
+                canvas_dict=singleorder(new_order)
+                canvas_list.append(canvas_dict)
+                new_order=[]
+                new_order.append(first_item.list[3])
+                counter=0
+            else:
+                new_order.append(first_item.list[3])
+                counter+=1
         # optimal path
-        canvas_dict=singleorder(new_order)
-        canvas_list.append(canvas_dict)
+        if not len(new_order)==0:
+            canvas_dict=singleorder(new_order)
+            canvas_list.append(canvas_dict)
     else:
+        # split the order by weight
         while not queue.empty():
             first_item = queue.get()
             if(sum+int(first_item.list[0])>=no_w):
@@ -251,6 +336,15 @@ with open('item-dimensions-tabbed.txt', 'r') as file:
         m=numbers[4]
         m_1=num(m)
         dict_w[n1]=m_1
+        read = file.readline()
+file.close()
+with open('warehouse-orders-v02-tabbed.txt', 'r') as file:
+    read = file.readline()
+    while not (read==""):
+        if not read:
+            break
+        order = read.split()
+        all_order_list.append(order)
         read = file.readline()
 file.close()
 
@@ -597,7 +691,7 @@ win = tk.Tk()
 var1= tk.StringVar()
 var2 = tk.StringVar()
 win.title('EECS221A App')
-win.geometry('170x500')
+win.geometry('220x525')
 
 
 all = Frame(win)
@@ -654,6 +748,14 @@ feedback = tk.Label(left, textvariable=fd, bg='grey', font=('Arial', 8), width=1
 feedback.pack(side="top")
 choose = Frame(left)
 choose.pack(side="top")
+ch=tk.Label(left, width=20, text='8.Use latest result:',bg='white')
+ch.pack(side="top")
+number = tk.StringVar()
+numberChosen = ttk.Combobox(left, width=22, textvariable=number)
+numberChosen['values'] = ("NN with weight", "NN without weight", "B&B with weight", "B&B without weight")
+numberChosen.pack(side = "top")
+
+numberChosen.current(0)
 other_op=Frame(left)
 other_op.pack(side="top")
 
@@ -695,7 +797,7 @@ w_qwer.pack(side="left")
 dw = tk.Label(w_select,width=5, text='(kg)',bg='white')
 dw.pack(side="left")
 
-# list of files:
+#list of files:
 # number = tk.StringVar()
 # numberChosen = ttk.Combobox(file, width=22, textvariable=number)
 # numberChosen['values'] = ("warehouse-orders-1item.csv", "warehouse-orders-3item.csv", "warehouse-orders-5item.csv", "warehouse-orders-10item.csv", "warehouse-orders-21item.csv")
@@ -733,9 +835,12 @@ go_button.pack(side="left")
 # latest = tk.Button(other_op, text='Latest', width=5,
 #               height=1, command=read_latest)
 # latest.pack(side="top")
+read = tk.Button(other_op, text='Read', width=5,
+              height=1, command=read_latest)
+read.pack(side="left")
 reset = tk.Button(other_op, text='Reset', width=5,
               height=1, command=reset_para)
-reset.pack(side="top")
+reset.pack(side="left")
 
 
 # qwer = tk.Button(bottomframe, text='lol', width=5,
