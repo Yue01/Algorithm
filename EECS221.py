@@ -73,13 +73,13 @@ def set_weight_2():
     global w
     w='n'
 
-def read_latest():
-    qwerlist=[]
-    with open('result.txt', 'r') as file:
-        read = file.readline()
-        qwerlist = list(read)
-        for i in range(0,len(qwerlist)):
-            print qwerlist[i]
+# def read_latest():
+#     qwerlist=[]
+#     with open('result.txt', 'r') as file:
+#         read = file.readline()
+#         qwerlist = list(read)
+#         for i in range(0,len(qwerlist)):
+#             print qwerlist[i]
 
 
 def reset_para():
@@ -133,6 +133,7 @@ def add_order():
     #最大的weight
     no_w = int(w_qwer.get())
     cur_order = all_order_list[num_order-1]
+    cur_dict = res_list[num_order-1]
     for i in range(0,len(cur_order)):
         cur_id = cur_order[i]
     # To professor:
@@ -165,6 +166,7 @@ def add_order():
     #fd.set(review)
 
 def process():
+    print "In this order:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     global canvas_list
     #最大的weight
     sum=0
@@ -181,8 +183,6 @@ def process():
     else:
         while not queue.empty():
             first_item = queue.get()
-            print "The current stuff：：：：：：：：：：：：：：：：：：：：：：：：：：：："
-            print first_item.list
             if(sum+int(first_item.list[0])>=no_w):
                 canvas_dict=singleorder(new_order)
                 canvas_list.append(canvas_dict)
@@ -334,7 +334,7 @@ def singleorder(order):
         return branch(dict2,dict_w,start_point,end_point,w,dict5)
     # improvement for nearest neighbour
     start_time = time.time()  # remember when we started
-    while (time.time() - start_time) <0.01:
+    while (time.time() - start_time) <0.001:
         opt=0
         curd=0
         pathlist=[]
@@ -526,7 +526,7 @@ def singleorder(order):
             tem_w = 0
             try:
                 # tem_w=weight[dict5[tem_list[len(list)-1]]]
-                tem_w = random.randint(1, 5)
+                tem_w=2
                 total_weight+=tem_w
                 print "(weight: ",tem_w,")",
             except KeyError:
@@ -558,11 +558,11 @@ def singleorder(order):
             # such is the same with bnb. Please inform me if I'm wrong or how to fix this! Thanks!
             # to find the weight from the file:
             # tem_w=weight[dict5[tem_list[len(list)-1]]]
-            tem_w = random.randint(1, 5)
+            tem_w = 2
             total_weight+=tem_w
             print "(weight: ",tem_w," )",
         except KeyError:
-            tem_w=0
+            tem_w=w
             print "(weight missing! )",
         print"(",x_2,",",y_2,")->",
 
@@ -730,9 +730,9 @@ draw.pack(side="left")
 go_button = tk.Button(choose, text='Go!', width=3,
               height=1, command=process)
 go_button.pack(side="left")
-latest = tk.Button(other_op, text='Latest', width=5,
-              height=1, command=read_latest)
-latest.pack(side="top")
+# latest = tk.Button(other_op, text='Latest', width=5,
+#               height=1, command=read_latest)
+# latest.pack(side="top")
 reset = tk.Button(other_op, text='Reset', width=5,
               height=1, command=reset_para)
 reset.pack(side="top")

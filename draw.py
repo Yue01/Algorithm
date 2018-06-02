@@ -24,7 +24,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 sx= 0
 sum = 0
 queue = Q.PriorityQueue()
-class item(object):
+
+
+class Item(object):
     def __init__(self,list):
         self.list=list
         return
