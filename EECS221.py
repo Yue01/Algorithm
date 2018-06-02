@@ -110,6 +110,8 @@ def read_latest():
     end_point[1]=read_in_list[0][5]
     print str(numberChosen.get()),",start:(",str(start_point[0]),",",str(start_point[1]),"),end:(",str(end_point[0]),",",str(end_point[1]),"),Max weight:",str(default_weight)
     res_list = read_in_list[1]
+    num_of_res.set(len(res_list))
+
 
 
 def reset_para():

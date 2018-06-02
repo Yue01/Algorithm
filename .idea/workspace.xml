@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d8bc3f0-4ce1-4164-b693-85e8edeb5cae" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/show_batch_file.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BNB.py" beforeDir="false" afterPath="$PROJECT_DIR$/BNB.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EECS221.py" beforeDir="false" afterPath="$PROJECT_DIR$/EECS221.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MST.py" beforeDir="false" afterPath="$PROJECT_DIR$/MST.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bb.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/bb.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bb_w.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/bb_w.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/nn.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nn_w.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/nn_w.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/show_batch_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/show_batch_file.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,19 +16,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="EECS221.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EECS221.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EECS221.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="275" column="43" selection-start-line="275" selection-start-column="43" selection-end-line="275" selection-end-column="43" />
+            <state relative-caret-position="177">
+              <caret line="112" column="31" selection-start-line="112" selection-start-column="31" selection-end-line="112" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BNB.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BNB.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BNB.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
+            <state relative-caret-position="359">
               <caret line="161" column="4" selection-start-line="161" selection-start-column="4" selection-end-line="161" selection-end-column="4" />
               <folding>
                 <element signature="e#90#108#0" expanded="true" />
@@ -47,7 +40,7 @@
       <file leaf-file-name="MST.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MST.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
+            <state relative-caret-position="359">
               <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
             </state>
           </provider>
@@ -56,8 +49,8 @@
       <file leaf-file-name="show_batch_file.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/show_batch_file.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
+            <state>
+              <caret column="13" selection-start-column="13" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -98,11 +91,11 @@
       <find>try</find>
       <find>check</find>
       <find>current</find>
-      <find>read</find>
       <find>default_weight</find>
       <find>6</find>
       <find>BNB</find>
       <find>before</find>
+      <find>read</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -117,20 +110,23 @@
         <option value="$PROJECT_DIR$/MST.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/BNB.py" />
+        <option value="$PROJECT_DIR$/show_batch_file.py" />
         <option value="$PROJECT_DIR$/EECS221.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="492" />
-    <option name="width" value="1437" />
-    <option name="height" value="1088" />
+    <option name="x" value="167" />
+    <option name="y" value="90" />
+    <option name="width" value="1439" />
+    <option name="height" value="1090" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Course" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -142,7 +138,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Course" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -240,6 +235,24 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="show_batch_file" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="EECS221" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/show_batch_file.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python">
       <module name="EECS221" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -264,10 +277,12 @@
       <item itemvalue="Python.MST" />
       <item itemvalue="Python.demo" />
       <item itemvalue="Python.BNB" />
+      <item itemvalue="Python.show_batch_file" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.EECS221" />
+        <item itemvalue="Python.show_batch_file" />
         <item itemvalue="Python.demo" />
         <item itemvalue="Python.BNB" />
         <item itemvalue="Python.MST" />
@@ -278,13 +293,13 @@
     <configuration />
   </component>
   <component name="ToolWindowManager">
-    <frame x="394" y="0" width="1149" height="870" extended-state="0" />
+    <frame x="134" y="72" width="1151" height="872" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.44914135" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.44843048" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32884097" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.6283784" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.393531" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39304814" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -653,13 +668,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MST.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1871">
@@ -669,25 +677,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/show_batch_file.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BNB.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="161" column="4" selection-start-line="161" selection-start-column="4" selection-end-line="161" selection-end-column="4" />
-          <folding>
-            <element signature="e#90#108#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="13" selection-start-column="13" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/EECS221.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="275" column="43" selection-start-line="275" selection-start-column="43" selection-end-line="275" selection-end-column="43" />
+        <state relative-caret-position="177">
+          <caret line="112" column="31" selection-start-line="112" selection-start-column="31" selection-end-line="112" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MST.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BNB.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="161" column="4" selection-start-line="161" selection-start-column="4" selection-end-line="161" selection-end-column="4" />
+          <folding>
+            <element signature="e#90#108#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
