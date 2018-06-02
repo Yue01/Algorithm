@@ -19,19 +19,21 @@ def append(dict, point, sum):
     return distance
 
 def check(dic):
-    tempdict={}
     res={}
     count=0
+    check_list=[]
+    exist = False
     for key in dic:
         x=dic[key][0]
         y=dic[key][1]
-        if(x not in tempdict):
-            tempdict[x]=y
-    for key3 in tempdict:
-        templist=[]
-        templist.append(key3)
-        templist.append(tempdict[key3])
-        res[count]=templist
+        for i in range(0,len(check_list)):
+            if check_list[i][0]==x and check_list[i][1]==y:
+                exist = True
+        if not exist:
+            check_list.append([x,y])
+        exist=False
+    for j in range(0,len(check_list)):
+        res[count]=check_list[j]
         count=count+1
     return res
 

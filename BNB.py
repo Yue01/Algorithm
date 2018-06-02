@@ -99,7 +99,9 @@ def cal_path_w(list,weight,dict2,dict4):
     #dict2[key, position]
     num_dict = dict4.copy()
 
-    now_w=0
+    effort = 0
+    total_w=0
+    nw_length = 0
     now_dict = dict2.copy()
     x_1=list[0][0]
     y_1=list[0][1]
@@ -107,8 +109,7 @@ def cal_path_w(list,weight,dict2,dict4):
     info.append(x_1)
     info.append(y_1)
     temp_dict[0]=info
-    print "BNB"
-    print "If weight in factor, the path will be: "
+    print "Here is the optimal path: "
     print"(",x_1,",",y_1,")->",
     tem_list = []
     tem_list.append(0)
@@ -133,7 +134,6 @@ def cal_path_w(list,weight,dict2,dict4):
         y_2=list[i][1]
         tem_w = 0
         try:
-            # for this part about why I give a random weight: please see the EECS221.py in line 394, thanks!
             #tem_w=weight[dict4[i]]
             tem_w=2
         except KeyError:
@@ -145,16 +145,23 @@ def cal_path_w(list,weight,dict2,dict4):
         info.append(y_2)
         temp_dict[i]=info
         print"(",x_2,",",y_2,")->",
-        now_w = (abs(x_1-x_2)+abs(y_1-y_2))*tem_w
+        nw_length += (abs(x_1-x_2)+abs(y_1-y_2))
+        effort =total_w*(abs(x_1-x_2)+abs(y_1-y_2))
+        total_w+=tem_w
         x_1=x_2
         y_1=y_2
+    x_2=list[len(list)-1][0]
+    y_2=list[len(list)-1][1]
+    nw_length += (abs(x_1-x_2)+abs(y_1-y_2))
+    effort =total_w*(abs(x_1-x_2)+abs(y_1-y_2))
     info=[]
     info.append(0)
     info.append(list[len(list)-1][0])
     info.append(list[len(list)-1][1])
     temp_dict[len(list)-1]=info
-
     print "END"
+    print("The optimal path length is : "),nw_length
+    print "The total effort in this order is :", effort
     return temp_dict
 
 
@@ -169,8 +176,7 @@ def cal_path_nw(list):
     info.append(x_1)
     info.append(y_1)
     temp_dict[0]=info
-    print "BNB"
-    print "If weight not in factor, the path will be: "
+    print "Here is the optimal path: "
     print"(",x_1,",",y_1,")->",
     for i in range(1,len(list)):
         info=[]
@@ -186,7 +192,7 @@ def cal_path_nw(list):
         print"(",x_2,",",y_2,")->",
 
     print "END"
-    print "The total cost with B&B will be:", nw_length
+    print("The optimal path length is : "),nw_length
     return temp_dict
 
 
