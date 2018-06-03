@@ -45,7 +45,11 @@ def draw_reset():
     queue = Q.PriorityQueue()
 
 # if without weight:
-def draw_graph(list):
+def draw_graph(list,weight_flag):
+    w= weight_flag
+    length = 0
+    total_weight = 0
+    effort=0
     startx=0
     starty=0
     x1=0
@@ -73,6 +77,7 @@ def draw_graph(list):
                 startx = dict[key][1]
                 starty=dict[key][2]
                 a.plot(startx,starty,'ro')
+                print "(", str(startx),",",str(starty),")->",
             else:
                 a.plot(int(dict[key][1]),int(dict[key][2]),'ro')
                 #[startx,dict[key][1]],[starty,dict[key][2]]
@@ -81,7 +86,11 @@ def draw_graph(list):
                 x2=int(dict[key][1])
                 y1=starty
                 y2=int(dict[key][2])
-
+                print "(", str(x2),",",str(y2),")->",
+                cur_w = dict[key][0]
+                effort = (abs(x2-x1)+abs(y2-y1))*total_weight
+                total_weight+=cur_w
+                length+=(abs(x2-x1)+abs(y2-y1))
                 if x1==x2:
                     if not y1==y2:
                         # a.plot([x1, x2],[y1, y2],'k')
@@ -114,6 +123,10 @@ def draw_graph(list):
 
                 startx = int(dict[key][1])
                 starty=int(dict[key][2])
+        print "END"
+        print "The optimal path length is :", length
+        if w=='y':
+            print "The total effort in this order is:",effort
         canvas = FigureCanvasTkAgg(f, master=top)
         canvas.draw()
         canvas.get_tk_widget().pack(side="top", expand=1)

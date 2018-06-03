@@ -194,6 +194,7 @@ def hit_me():
             read = file.readline()
     file.close()
     num_of_res.set(len(all_order_list))
+    print "done!!"
 
     # save in the batch file
     save_res_list=[]
@@ -287,6 +288,7 @@ def process():
     new_res={}
     modified = False
     if(added_flag==1):
+        print "Read from past!"
         num_order=int(choose_input.get())
         canvas_list = res_list[num_order-1]
         if len(canvas_list)>1:
@@ -332,8 +334,8 @@ def process():
                 canvas_list.append(canvas_dict)
         if modified:
             fd.set("The order is splitted!")
-
-    draw_graph(canvas_list)
+    added_flag =0
+    draw_graph(canvas_list,w)
 
 
 # used for data transfer
@@ -473,7 +475,7 @@ def singleorder(order):
         starty=node[1]
         dict3.pop(next)
     opt=0
-    print("Here is the optimal path:")
+    # print("Here is the optimal path:")
     # if(w=="n"):
     opt=0
     total_weight = 0
@@ -481,17 +483,17 @@ def singleorder(order):
     direction =1
     temp_dict={}
     info=[]
-    print("("),
-    print(start_point[0]*2),
+    # print("("),
+    # print(start_point[0]*2),
     startx=start_point[0]*2
-    print(","),
-    print(start_point[1]*2),
+    # print(","),
+    # print(start_point[1]*2),
     starty=start_point[1]*2
     info.append(0)
     info.append(startx)
     info.append(starty)
     temp_dict[0]=info
-    print(")->"),
+    # print(")->"),
     for i in range(len(pathlist)):
         info=[]
         col = dict2[pathlist[i]]
@@ -514,11 +516,11 @@ def singleorder(order):
         info.append(startx+direction)
         info.append(starty)
         temp_dict[i+1]=info
-        print("("),
-        print(col[0]*2),
-        print(","),
-        print(col[1]*2),
-        print(")->"),
+        # print("("),
+        # print(col[0]*2),
+        # print(","),
+        # print(col[1]*2),
+        # print(")->"),
     endx=end_point[0]*2
     endy=end_point[1]*2
     last_path = get_dis(startx,starty,endx,endy)
@@ -529,17 +531,17 @@ def singleorder(order):
     info.append(endy)
     effort +=last_path*total_weight
     temp_dict[len(pathlist)+1]=info
-    print("("),
-    print(end_point[0]*2),
-    print(","),
-    print(end_point[1]*2),
-    print(")->"),
-    print("END")
-    print("The optimal path length is : "),
-    print opt
-    if(w=="y"):
-        print "The total effort in this order is :", effort
-    print("\n")
+    # print("("),
+    # print(end_point[0]*2),
+    # print(","),
+    # print(end_point[1]*2),
+    # print(")->"),
+    # print("END")
+    # print("The optimal path length is : "),
+    # print opt
+    # if(w=="y"):
+    #     print "The total effort in this order is :", effort
+    # print("\n")
     return temp_dict
 
 

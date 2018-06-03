@@ -109,8 +109,8 @@ def cal_path_w(list,weight,dict2,dict4):
     info.append(x_1)
     info.append(y_1)
     temp_dict[0]=info
-    print "Here is the optimal path: "
-    print"(",x_1,",",y_1,")->",
+    # print "Here is the optimal path: "
+    # print"(",x_1,",",y_1,")->",
     tem_list = []
     tem_list.append(0)
     s=''
@@ -144,7 +144,7 @@ def cal_path_w(list,weight,dict2,dict4):
         info.append(x_2)
         info.append(y_2)
         temp_dict[i]=info
-        print"(",x_2,",",y_2,")->",
+        # print"(",x_2,",",y_2,")->",
         nw_length += (abs(x_1-x_2)+abs(y_1-y_2))
         effort =total_w*(abs(x_1-x_2)+abs(y_1-y_2))
         total_w+=tem_w
@@ -159,9 +159,9 @@ def cal_path_w(list,weight,dict2,dict4):
     info.append(list[len(list)-1][0])
     info.append(list[len(list)-1][1])
     temp_dict[len(list)-1]=info
-    print "END"
-    print("The optimal path length is : "),nw_length
-    print "The total effort in this order is :", effort
+    # print "END"
+    # print("The optimal path length is : "),nw_length
+    # print "The total effort in this order is :", effort
     return temp_dict
 
 
@@ -176,8 +176,8 @@ def cal_path_nw(list):
     info.append(x_1)
     info.append(y_1)
     temp_dict[0]=info
-    print "Here is the optimal path: "
-    print"(",x_1,",",y_1,")->",
+    # print "Here is the optimal path: "
+    # print"(",x_1,",",y_1,")->",
     for i in range(1,len(list)):
         info=[]
         x_2=list[i][0]
@@ -189,10 +189,10 @@ def cal_path_nw(list):
         info.append(x_2)
         info.append(y_2)
         temp_dict[i]=info
-        print"(",x_2,",",y_2,")->",
-
-    print "END"
-    print("The optimal path length is : "),nw_length
+    #     print"(",x_2,",",y_2,")->",
+    #
+    # print "END"
+    # print("The optimal path length is : "),nw_length
     return temp_dict
 
 
