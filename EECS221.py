@@ -48,6 +48,7 @@ start_point=[0,0]
 end_point=[0,0]
 choice = 'n'
 w='n'
+added_flag = 0
 canvas_list=[]
 all_order_list=[]
 res_list=[]
@@ -85,6 +86,8 @@ def read_latest():
     global default_weight
     global start_point
     global end_point
+    global added_flag
+    added_flag=0
     read_in_list=[]
     if(str(numberChosen.get())=="NN with weight"):
         pickle_in = open("nn_w.pickle","r")
@@ -119,11 +122,13 @@ def reset_para():
     global queue
     global canvas_list
     global default_weight
+    global added_flag
     current_total_weight=0
     queue=Q.PriorityQueue()
     canvas_list=[]
     BNB_reset()
     draw_reset()
+    added_flag = 0
     # default_weight=0
 #the start button activity in GUI
 def hit_me():
@@ -147,8 +152,45 @@ def hit_me():
             if not read:
                 break
             order = read.split()
-            res_dict=singleorder(order)
-            res_list.append(res_dict)
+            if(w=="y"):
+                cur_order_list=[]
+                new_split_list = []
+                max_weight = int(w_qwer.get())
+                sum_weight =0
+                for i in range(len(order)):
+                    #tem_w = dict_w[order[i]]
+                    tem_w = 2
+                    if sum_weight+tem_w>max_weight:
+                        res_dict=singleorder(new_split_list)
+                        cur_order_list.append(res_dict)
+                        new_split_list=[]
+                        new_split_list.append(order[i])
+                        sum_weight = tem_w
+                    else:
+                        new_split_list.append(order[i])
+                        sum_weight+=tem_w
+                if not (len(new_split_list)==0):
+                    res_dict=singleorder(new_split_list)
+                    cur_order_list.append(res_dict)
+                res_list.append(cur_order_list)
+            else:
+                cur_order_list=[]
+                new_split_list = []
+                counter=0
+                for i in range(len(order)):
+                    if counter>4:
+                        counter=0
+                        res_dict=singleorder(new_split_list)
+                        cur_order_list.append(res_dict)
+                        new_split_list=[]
+                        new_split_list.append(order[i])
+                    else:
+                        new_split_list.append(order[i])
+                        counter+=1
+                if not (len(new_split_list)==0):
+                    res_dict=singleorder(new_split_list)
+                    cur_order_list.append(res_dict)
+                res_list.append(cur_order_list)
             read = file.readline()
     file.close()
     num_of_res.set(len(all_order_list))
@@ -191,6 +233,8 @@ def add_order():
     global w
     global all_order_list
     global default_weight
+    global added_flag
+    added_flag+=1
     x=0
     y=0
     #输入的order 号
@@ -231,6 +275,8 @@ def add_order():
 def process():
     print "In this order:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     global canvas_list
+    global res_list
+    global added_flag
     #最大的weight
     sum=0
     try:
@@ -240,44 +286,52 @@ def process():
     new_order=[]
     new_res={}
     modified = False
-    if(w=="n"):
-        # for no weight order: limit the number of items for 5
-        counter = 0
-        while not queue.empty():
-            first_item = queue.get()
-            if(counter>4):
-                modified=True
-                canvas_dict=singleorder(new_order)
-                canvas_list.append(canvas_dict)
-                new_order=[]
-                new_order.append(first_item.list[3])
-                counter=0
-            else:
-                new_order.append(first_item.list[3])
-                counter+=1
-        # optimal path
-        if not len(new_order)==0:
-            canvas_dict=singleorder(new_order)
-            canvas_list.append(canvas_dict)
+    if(added_flag==1):
+        num_order=int(choose_input.get())
+        canvas_list = res_list[num_order-1]
+        if len(canvas_list)>1:
+            fd.set("The order is splitted!")
+        else:
+            fd.set("Processed!")
     else:
-        # split the order by weight
-        while not queue.empty():
-            first_item = queue.get()
-            if(sum+int(first_item.list[0])>=no_w):
-                modified=True
+        if(w=="n"):
+            # for no weight order: limit the number of items for 5
+            counter = 0
+            while not queue.empty():
+                first_item = queue.get()
+                if(counter>4):
+                    modified=True
+                    canvas_dict=singleorder(new_order)
+                    canvas_list.append(canvas_dict)
+                    new_order=[]
+                    new_order.append(first_item.list[3])
+                    counter=0
+                else:
+                    new_order.append(first_item.list[3])
+                    counter+=1
+            # optimal path
+            if not len(new_order)==0:
                 canvas_dict=singleorder(new_order)
                 canvas_list.append(canvas_dict)
-                new_order=[]
-                new_order.append(first_item.list[3])
-                sum=first_item.list[0]
-            else:
-                new_order.append(first_item.list[3])
-                sum+=first_item.list[0]
-        if not len(new_order)==0:
-            canvas_dict=singleorder(new_order)
-            canvas_list.append(canvas_dict)
-    if modified:
-        fd.set("The order is splitted!")
+        else:
+            # split the order by weight
+            while not queue.empty():
+                first_item = queue.get()
+                if(sum+int(first_item.list[0])>=no_w):
+                    modified=True
+                    canvas_dict=singleorder(new_order)
+                    canvas_list.append(canvas_dict)
+                    new_order=[]
+                    new_order.append(first_item.list[3])
+                    sum=first_item.list[0]
+                else:
+                    new_order.append(first_item.list[3])
+                    sum+=first_item.list[0]
+            if not len(new_order)==0:
+                canvas_dict=singleorder(new_order)
+                canvas_list.append(canvas_dict)
+        if modified:
+            fd.set("The order is splitted!")
 
     draw_graph(canvas_list)
 
