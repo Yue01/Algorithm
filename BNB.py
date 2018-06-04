@@ -9,6 +9,7 @@ import graphviz as gv
 import Queue as Q
 import random
 from MST import check
+import time
 '''
 define the direction:
 -1 -> item <- 1
@@ -43,7 +44,24 @@ def bnb(tem,i):
             if(row[m]<50):
                 cur_sum+=row[m]
         return cur_sum
-
+def check(dic):
+    res={}
+    count=0
+    check_list=[]
+    exist = False
+    for key in dic:
+        x=dic[key][0]
+        y=dic[key][1]
+        for i in range(0,len(check_list)):
+            if check_list[i][0]==x and check_list[i][1]==y:
+                exist = True
+        if not exist:
+            check_list.append([x,y])
+        exist=False
+    for j in range(0,len(check_list)):
+        res[count]=check_list[j]
+        count=count+1
+    return res
 def BNB_reset():
     global op_path
     global upper_bound
@@ -176,8 +194,20 @@ def cal_path_nw(list):
     info.append(x_1)
     info.append(y_1)
     temp_dict[0]=info
-    # print "Here is the optimal path: "
-    # print"(",x_1,",",y_1,")->",
+
+    # Part 5: about weight
+    # for i in range(1,len(list)):
+    #     x_2=list[i][0]
+    #     y_2=list[i][1]
+    #     tem_w = 0
+    #     print"now we will use ", dict4[i],
+    #     try:
+    #         tem_w=weight[dict4[i]]
+    #     except KeyError:
+    #         tem_w=0
+    #         print "(weight missing! )",
+    #     x_1=x_2
+    #     y_1=y_2
     for i in range(1,len(list)):
         info=[]
         x_2=list[i][0]
@@ -189,8 +219,6 @@ def cal_path_nw(list):
         info.append(x_2)
         info.append(y_2)
         temp_dict[i]=info
-    #     print"(",x_2,",",y_2,")->",
-    #
     # print "END"
     # print("The optimal path length is : "),nw_length
     return temp_dict

@@ -26,7 +26,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from draw import draw_graph
 from draw import draw_reset
-from MST import check
+from BNB import check
 
 
 
@@ -162,6 +162,8 @@ def hit_me():
         while not (read==""):
             if not read:
                 break
+            print "Orders so far："
+            print read_line_counter
             cur_order_weight=0
             read_line_counter+=1
             cur_list=[]
@@ -178,7 +180,6 @@ def hit_me():
                     tem_w = 2
                     cur_order_weight+=tem_w
                     cur_list.append(order[i])
-                print cur_list
                 if cur_order_weight<maxw:
                     status[read_line_counter]="Combined and split!"
                     while cur_order_weight<maxw:

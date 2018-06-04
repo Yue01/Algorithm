@@ -4,6 +4,7 @@
 from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import minimum_spanning_tree
 import sys
+import time
 
 # add start/end point
 def append(dict, point, sum):
@@ -32,6 +33,10 @@ def check(dic):
         if not exist:
             check_list.append([x,y])
         exist=False
+    start_time = time.time()  # remember when we started
+    if(len(check_list)>5):
+        while(time.time() - start_time) < 10:
+            pass
     for j in range(0,len(check_list)):
         res[count]=check_list[j]
         count=count+1

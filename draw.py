@@ -60,6 +60,9 @@ def draw_graph(list,weight_flag):
     root = tk.Tk()
 
     for i in range(0,len(list)):
+        length=0
+        effort=0
+        total_weight=0
         top = Toplevel()
         top.title('#'+str(i+1))
         top.wm_geometry("200x300")
