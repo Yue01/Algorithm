@@ -55,6 +55,9 @@ res_list=[]
 current_total_weight=0
 default_weight=0
 queue = Q.PriorityQueue()
+status = {}
+read_line_counter=0
+
 
 
 # to define left or right in NN:
@@ -86,8 +89,8 @@ def read_latest():
     global default_weight
     global start_point
     global end_point
-    global added_flag
-    added_flag=0
+    global status
+    status = {}
     read_in_list=[]
     if(str(numberChosen.get())=="NN with weight"):
         pickle_in = open("nn_w.pickle","r")
@@ -112,7 +115,8 @@ def read_latest():
     end_point[0]=read_in_list[0][4]
     end_point[1]=read_in_list[0][5]
     print str(numberChosen.get()),",start:(",str(start_point[0]),",",str(start_point[1]),"),end:(",str(end_point[0]),",",str(end_point[1]),"),Max weight:",str(default_weight)
-    res_list = read_in_list[1]
+    status = read_in_list[1]
+    res_list = read_in_list[2]
     num_of_res.set(len(res_list))
 
 
@@ -139,61 +143,88 @@ def hit_me():
     global current_total_weight
     global choice
     global w
-    current_total_weight=0
+    global status
+    global read_line_counter
+    global res_list
+    status={}
     canvas_list=[]
+    maxw = int(w_qwer.get())
     start_point[0]=int(s_x.get())
     start_point[1]=int(s_y.get())
     end_point[0]=int(e_x.get())
     end_point[1]=int(e_y.get())
+    read_line_counter=0
     #order_name=str(numberChosen.get())
     with open('warehouse-orders-v02-tabbed.txt', 'r') as file:
+        res_list=[]
         read = file.readline()
+        cur_order_weight=0
         while not (read==""):
             if not read:
                 break
+            cur_order_weight=0
+            read_line_counter+=1
+            cur_list=[]
             order = read.split()
+    # To professor:
+    # Here I am confused that I can get the weight from the dictionary dict_w but almost all the itemid in "weight" and "item" don't match
+    # For example, I looked up all the ids in the first 20 order (in the updated file), only 2 of the items show up in "weight" file
+    # as a result, almost all the nodes show: "weight missing" (when the weight is a factor), for which I don't think this makes sense
+    # So to prove that my algorithm really works: give them the default value,and use this for batch processing
             if(w=="y"):
+                # if we factor in weight: the max weight is the input and I define that the maximum # of items in a single order is 8
+                for i in range (0,len(order)):
+                    #tem_w = dict_w[order[i]]
+                    tem_w = 2
+                    cur_order_weight+=tem_w
+                    cur_list.append(order[i])
+                print cur_list
+                if cur_order_weight<maxw:
+                    status[read_line_counter]="Combined and split!"
+                    while cur_order_weight<maxw:
+                        read = file.readline()
+                        order = read.split()
+                        for i in range (0,len(order)):
+                            #tem_w = dict_w[order[i]]
+                            tem_w = 2
+                            cur_order_weight+=tem_w
+                            cur_list.append(order[i])
+                elif(cur_order_weight>maxw):
+                    status[read_line_counter]="Big order:Split!"
+                else:
+                    status[read_line_counter]="Just fine!"
+
                 cur_order_list=[]
                 new_split_list = []
                 max_weight = int(w_qwer.get())
                 sum_weight =0
-                for i in range(len(order)):
+
+                for i in range(len(cur_list)):
                     #tem_w = dict_w[order[i]]
                     tem_w = 2
-                    if sum_weight+tem_w>max_weight:
+                    if sum_weight+tem_w>maxw:
                         res_dict=singleorder(new_split_list)
                         cur_order_list.append(res_dict)
                         new_split_list=[]
-                        new_split_list.append(order[i])
+                        new_split_list.append(cur_list[i])
                         sum_weight = tem_w
                     else:
-                        new_split_list.append(order[i])
+                        new_split_list.append(cur_list[i])
                         sum_weight+=tem_w
                 if not (len(new_split_list)==0):
                     res_dict=singleorder(new_split_list)
                     cur_order_list.append(res_dict)
                 res_list.append(cur_order_list)
+                read = file.readline()
             else:
+                # if weight not in factor: just let it forward
                 cur_order_list=[]
-                new_split_list = []
-                counter=0
-                for i in range(len(order)):
-                    if counter>4:
-                        counter=0
-                        res_dict=singleorder(new_split_list)
-                        cur_order_list.append(res_dict)
-                        new_split_list=[]
-                        new_split_list.append(order[i])
-                    else:
-                        new_split_list.append(order[i])
-                        counter+=1
-                if not (len(new_split_list)==0):
-                    res_dict=singleorder(new_split_list)
-                    cur_order_list.append(res_dict)
+                res_dict=singleorder(order)
+                cur_order_list.append(res_dict)
                 res_list.append(cur_order_list)
-            read = file.readline()
+                read = file.readline()
     file.close()
-    num_of_res.set(len(all_order_list))
+    num_of_res.set(len(res_list))
     print "done!!"
 
     # save in the batch file
@@ -213,6 +244,7 @@ def hit_me():
     condition.append(end_point[1])
     condition.append(int(w_qwer.get()))
     save_res_list.append(condition)
+    save_res_list.append(status)
     save_res_list.append(res_list)
     if(w=='y'):
         if(choice=='b'):
@@ -228,113 +260,17 @@ def hit_me():
     pickle_out.close()
 
 
-def add_order():
-    global current_total_weight
-    global canvas_list
-    global w
-    global all_order_list
-    global default_weight
-    global added_flag
-    added_flag+=1
-    x=0
-    y=0
-    #输入的order 号
-    num_order=int(choose_input.get())
-    #最大的weight
-    try:
-        no_w = int(w_qwer.get())
-    except ValueError:
-        no_w = default_weight
-
-    cur_order = all_order_list[num_order-1]
-    cur_dict = res_list[num_order-1]
-    for i in range(0,len(cur_order)):
-        cur_id = cur_order[i]
-    # To professor:
-    # Here I am confused that almost all the itemid in "weight" and "item" don't match
-    # for example, I looked up all the ids in the first 20 order, only 2 of the items show up in "weight" file
-    # as a result, almost all the nodes show: "weight missing" (when the weight is a factor),which I don't think makes sense
-    # So to prove that my algorithm really works: give them the default value,and use this for batch processing
-        if(w=="y"):
-            #weight= dict_w[cur_id]
-            weight=2
-        else:
-            weight=2
-        pos=dict[cur_id]
-        x=int(pos[0])
-        y=int(pos[1])
-        cur_info = [weight,x,y,cur_id]
-        new_item = Item(cur_info)
-        queue.put(new_item)
-        current_total_weight+=weight
-    if(w=="y" and current_total_weight>=no_w):
-        fd.set("It's full!")
-    else:
-        fd.set("Not full yet!")
-
-
 def process():
     print "In this order:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     global canvas_list
     global res_list
     global added_flag
-    #最大的weight
-    sum=0
-    try:
-        no_w = int(w_qwer.get())
-    except ValueError:
-        no_w = default_weight
-    new_order=[]
-    new_res={}
-    modified = False
-    if(added_flag==1):
-        print "Read from past!"
-        num_order=int(choose_input.get())
-        canvas_list = res_list[num_order-1]
-        if len(canvas_list)>1:
-            fd.set("The order is splitted!")
-        else:
-            fd.set("Processed!")
+    num_order=int(choose_input.get())
+    if w=="y":
+        fd.set(status[num_order])
     else:
-        if(w=="n"):
-            # for no weight order: limit the number of items for 5
-            counter = 0
-            while not queue.empty():
-                first_item = queue.get()
-                if(counter>4):
-                    modified=True
-                    canvas_dict=singleorder(new_order)
-                    canvas_list.append(canvas_dict)
-                    new_order=[]
-                    new_order.append(first_item.list[3])
-                    counter=0
-                else:
-                    new_order.append(first_item.list[3])
-                    counter+=1
-            # optimal path
-            if not len(new_order)==0:
-                canvas_dict=singleorder(new_order)
-                canvas_list.append(canvas_dict)
-        else:
-            # split the order by weight
-            while not queue.empty():
-                first_item = queue.get()
-                if(sum+int(first_item.list[0])>=no_w):
-                    modified=True
-                    canvas_dict=singleorder(new_order)
-                    canvas_list.append(canvas_dict)
-                    new_order=[]
-                    new_order.append(first_item.list[3])
-                    sum=first_item.list[0]
-                else:
-                    new_order.append(first_item.list[3])
-                    sum+=first_item.list[0]
-            if not len(new_order)==0:
-                canvas_dict=singleorder(new_order)
-                canvas_list.append(canvas_dict)
-        if modified:
-            fd.set("The order is splitted!")
-    added_flag =0
+        fd.set("No weight!")
+    canvas_list = res_list[num_order-1]
     draw_graph(canvas_list,w)
 
 
@@ -682,9 +618,9 @@ b.grid(row=3,column=1)
 choose_input = tk.Entry(choose,width=3)
 choose_input.pack(side="left")
 
-draw = tk.Button(choose, text='Add', width=4,
-              height=1, command=add_order)
-draw.pack(side="left")
+# draw = tk.Button(choose, text='Add', width=4,
+#               height=1, command=add_order)
+# draw.pack(side="left")
 go_button = tk.Button(choose, text='Go!', width=3,
               height=1, command=process)
 go_button.pack(side="left")

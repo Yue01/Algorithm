@@ -4,12 +4,11 @@
     <list default="true" id="4d8bc3f0-4ce1-4164-b693-85e8edeb5cae" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BNB.py" beforeDir="false" afterPath="$PROJECT_DIR$/BNB.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EECS221.py" beforeDir="false" afterPath="$PROJECT_DIR$/EECS221.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bb.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/bb.pickle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bb_w.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/bb_w.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/draw.py" beforeDir="false" afterPath="$PROJECT_DIR$/draw.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nn.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/nn.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nn_w.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/nn_w.pickle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/show_batch_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/show_batch_file.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,20 +20,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="EECS221.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="EECS221.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EECS221.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3135">
-              <caret line="175" column="17" selection-start-line="175" selection-start-column="17" selection-end-line="175" selection-end-column="17" />
+            <state relative-caret-position="168">
+              <caret line="186" column="51" selection-start-line="186" selection-start-column="51" selection-end-line="186" selection-end-column="51" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show_batch_file.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="show_batch_file.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/show_batch_file.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+            <state relative-caret-position="107">
+              <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -50,11 +49,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>394</find>
-      <find>w_qwer</find>
-      <find>current_total</find>
-      <find>col</find>
-      <find>res</find>
       <find>cur_id</find>
       <find>nodes</find>
       <find>reset</find>
@@ -80,6 +74,11 @@
       <find>modified</find>
       <find>num_order</find>
       <find>print</find>
+      <find>all_order</find>
+      <find>added_flag</find>
+      <find>res_list</find>
+      <find>show</find>
+      <find>CS</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -94,14 +93,14 @@
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/draw.py" />
         <option value="$PROJECT_DIR$/BNB.py" />
-        <option value="$PROJECT_DIR$/EECS221.py" />
         <option value="$PROJECT_DIR$/show_batch_file.py" />
+        <option value="$PROJECT_DIR$/EECS221.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="421" />
-    <option name="y" value="46" />
+    <option name="x" value="276" />
+    <option name="y" value="37" />
     <option name="width" value="1440" />
     <option name="height" value="1090" />
   </component>
@@ -110,6 +109,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Course" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -121,7 +121,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Course" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -146,7 +145,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.show_batch_file">
+  <component name="RunManager" selected="Python.EECS221">
     <configuration name="BNB" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="EECS221" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -265,8 +264,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.show_batch_file" />
         <item itemvalue="Python.EECS221" />
+        <item itemvalue="Python.show_batch_file" />
         <item itemvalue="Python.demo" />
         <item itemvalue="Python.BNB" />
         <item itemvalue="Python.MST" />
@@ -280,10 +279,10 @@
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.6063408" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.60568035" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32884097" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.40240642" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.21390374" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.0815508" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -298,16 +297,16 @@
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.42470276" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.34979972" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39919892" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Python Console" order="8" />
     </layout-to-restore>
@@ -664,17 +663,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EECS221.py">
+    <entry file="file://$PROJECT_DIR$/show_batch_file.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3135">
-          <caret line="175" column="17" selection-start-line="175" selection-start-column="17" selection-end-line="175" selection-end-column="17" />
+        <state relative-caret-position="107">
+          <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/show_batch_file.py">
+    <entry file="file://$PROJECT_DIR$/EECS221.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+        <state relative-caret-position="168">
+          <caret line="186" column="51" selection-start-line="186" selection-start-column="51" selection-end-line="186" selection-end-column="51" />
         </state>
       </provider>
     </entry>
